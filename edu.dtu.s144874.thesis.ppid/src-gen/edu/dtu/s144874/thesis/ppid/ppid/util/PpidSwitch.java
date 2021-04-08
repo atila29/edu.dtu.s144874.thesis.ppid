@@ -3,7 +3,32 @@
  */
 package edu.dtu.s144874.thesis.ppid.ppid.util;
 
-import edu.dtu.s144874.thesis.ppid.ppid.*;
+import edu.dtu.s144874.thesis.ppid.ppid.ArrayType;
+import edu.dtu.s144874.thesis.ppid.ppid.Connections;
+import edu.dtu.s144874.thesis.ppid.ppid.EndRule;
+import edu.dtu.s144874.thesis.ppid.ppid.Entity;
+import edu.dtu.s144874.thesis.ppid.ppid.EntityReference;
+import edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule;
+import edu.dtu.s144874.thesis.ppid.ppid.Model;
+import edu.dtu.s144874.thesis.ppid.ppid.Output;
+import edu.dtu.s144874.thesis.ppid.ppid.OutputProperty;
+import edu.dtu.s144874.thesis.ppid.ppid.OutputValue;
+import edu.dtu.s144874.thesis.ppid.ppid.PpidPackage;
+import edu.dtu.s144874.thesis.ppid.ppid.Property;
+import edu.dtu.s144874.thesis.ppid.ppid.PropertyReference;
+import edu.dtu.s144874.thesis.ppid.ppid.Rule;
+import edu.dtu.s144874.thesis.ppid.ppid.SimpleDataType;
+import edu.dtu.s144874.thesis.ppid.ppid.Sink;
+import edu.dtu.s144874.thesis.ppid.ppid.Source;
+import edu.dtu.s144874.thesis.ppid.ppid.SourceUpdate;
+import edu.dtu.s144874.thesis.ppid.ppid.StartRule;
+import edu.dtu.s144874.thesis.ppid.ppid.Type;
+import edu.dtu.s144874.thesis.ppid.ppid.Update;
+import edu.dtu.s144874.thesis.ppid.ppid.UpdateAbove;
+import edu.dtu.s144874.thesis.ppid.ppid.UpdateBelow;
+import edu.dtu.s144874.thesis.ppid.ppid.UpdateChange;
+import edu.dtu.s144874.thesis.ppid.ppid.UpdateIs;
+import edu.dtu.s144874.thesis.ppid.ppid.UpdateNot;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -185,6 +210,27 @@ public class PpidSwitch<T> extends Switch<T>
       {
         Rule rule = (Rule)theEObject;
         T result = caseRule(rule);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case PpidPackage.EXTENDED_RULE:
+      {
+        ExtendedRule extendedRule = (ExtendedRule)theEObject;
+        T result = caseExtendedRule(extendedRule);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case PpidPackage.PROCESS:
+      {
+        edu.dtu.s144874.thesis.ppid.ppid.Process process = (edu.dtu.s144874.thesis.ppid.ppid.Process)theEObject;
+        T result = caseProcess(process);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case PpidPackage.CONNECTIONS:
+      {
+        Connections connections = (Connections)theEObject;
+        T result = caseConnections(connections);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -498,6 +544,54 @@ public class PpidSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseRule(Rule object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Extended Rule</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Extended Rule</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseExtendedRule(ExtendedRule object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Process</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Process</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseProcess(edu.dtu.s144874.thesis.ppid.ppid.Process object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Connections</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Connections</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseConnections(Connections object)
   {
     return null;
   }

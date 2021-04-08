@@ -5,6 +5,7 @@ import com.google.common.collect.Iterables;
 import edu.dtu.s144874.thesis.ppid.generator.IndexedUpdate;
 import edu.dtu.s144874.thesis.ppid.ppid.EndRule;
 import edu.dtu.s144874.thesis.ppid.ppid.EntityReference;
+import edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule;
 import edu.dtu.s144874.thesis.ppid.ppid.Output;
 import edu.dtu.s144874.thesis.ppid.ppid.OutputProperty;
 import edu.dtu.s144874.thesis.ppid.ppid.OutputValue;
@@ -161,10 +162,10 @@ public class PpidGenerator extends AbstractGenerator {
     _builder.append(_join_2);
     _builder.newLineIfNotEmpty();
     _builder.newLine();
-    final Function1<Rule, String> _function_3 = (Rule it) -> {
+    final Function1<ExtendedRule, String> _function_3 = (ExtendedRule it) -> {
       String _xblockexpression = null;
       {
-        final EList<SourceUpdate> updates = it.getUpdates();
+        final EList<SourceUpdate> updates = it.getRule().getUpdates();
         final Function1<SourceUpdate, IndexedUpdate> _function_4 = (SourceUpdate it_1) -> {
           int _indexOf = updates.indexOf(it_1);
           return new IndexedUpdate(_indexOf, it_1);
@@ -178,9 +179,18 @@ public class PpidGenerator extends AbstractGenerator {
         String _join_3 = IterableExtensions.join(ListExtensions.<IndexedUpdate, CharSequence>map(indexedUpdates, _function_5), ", ");
         _builder_1.append(_join_3);
         _builder_1.newLineIfNotEmpty();
-        CharSequence _compile = this.compile(it.getOutput());
-        _builder_1.append(_compile);
-        _builder_1.newLineIfNotEmpty();
+        {
+          Output _output = it.getOutput();
+          boolean _tripleEquals = (_output == null);
+          if (_tripleEquals) {
+            _builder_1.append("select *");
+            _builder_1.newLine();
+          } else {
+            CharSequence _compile = this.compile(it.getOutput());
+            _builder_1.append(_compile);
+            _builder_1.newLineIfNotEmpty();
+          }
+        }
         _builder_1.append("having ");
         final Function1<IndexedUpdate, CharSequence> _function_6 = (IndexedUpdate it_1) -> {
           return this.compileHaving(it_1);
@@ -197,14 +207,14 @@ public class PpidGenerator extends AbstractGenerator {
       }
       return _xblockexpression;
     };
-    String _join_3 = IterableExtensions.join(IterableExtensions.<Rule, String>map(Iterables.<Rule>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), Rule.class), _function_3), "\n");
+    String _join_3 = IterableExtensions.join(IterableExtensions.<ExtendedRule, String>map(Iterables.<ExtendedRule>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), ExtendedRule.class), _function_3), "\n");
     _builder.append(_join_3);
     _builder.newLineIfNotEmpty();
     _builder.newLine();
-    final Function1<Rule, String> _function_4 = (Rule it) -> {
+    final Function1<ExtendedRule, String> _function_4 = (ExtendedRule it) -> {
       String _xblockexpression = null;
       {
-        final EList<SourceUpdate> updates = it.getUpdates();
+        final EList<SourceUpdate> updates = it.getRule().getUpdates();
         final Function1<SourceUpdate, IndexedUpdate> _function_5 = (SourceUpdate it_1) -> {
           int _indexOf = updates.indexOf(it_1);
           return new IndexedUpdate(_indexOf, it_1);
@@ -214,15 +224,15 @@ public class PpidGenerator extends AbstractGenerator {
         _builder_1.append("from every ");
         String _name = it.getSink().getName();
         _builder_1.append(_name);
-        _builder_1.append("Out#unique:deduplicate(ts, 1 sec) join ");
-        CharSequence _compileEndName = this.compileEndName(it);
+        _builder_1.append("Out join ");
+        CharSequence _compileEndName = this.compileEndName(it.getRule());
         _builder_1.append(_compileEndName);
         _builder_1.newLineIfNotEmpty();
         _builder_1.append("select ");
         String _name_1 = it.getSink().getName();
         _builder_1.append(_name_1);
         _builder_1.append("Out.processName, str:concat(\'instance\', convert(count(");
-        CharSequence _compileEndName_1 = this.compileEndName(it);
+        CharSequence _compileEndName_1 = this.compileEndName(it.getRule());
         _builder_1.append(_compileEndName_1);
         _builder_1.append(".instanceCount),\'string\')) as caseId, ");
         String _name_2 = it.getSink().getName();
@@ -244,7 +254,7 @@ public class PpidGenerator extends AbstractGenerator {
       }
       return _xblockexpression;
     };
-    String _join_4 = IterableExtensions.join(IterableExtensions.<Rule, String>map(Iterables.<Rule>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), Rule.class), _function_4), "\n");
+    String _join_4 = IterableExtensions.join(IterableExtensions.<ExtendedRule, String>map(Iterables.<ExtendedRule>filter(IteratorExtensions.<EObject>toIterable(resource.getAllContents()), ExtendedRule.class), _function_4), "\n");
     _builder.append(_join_4);
     _builder.newLineIfNotEmpty();
     _builder.newLine();
@@ -473,7 +483,6 @@ public class PpidGenerator extends AbstractGenerator {
       StringConcatenation _builder = new StringConcatenation();
       String _name = ((EntityReference)type).getEntity().getName();
       _builder.append(_name);
-      _builder.newLineIfNotEmpty();
       _xifexpression = _builder;
     } else {
       CharSequence _xifexpression_1 = null;

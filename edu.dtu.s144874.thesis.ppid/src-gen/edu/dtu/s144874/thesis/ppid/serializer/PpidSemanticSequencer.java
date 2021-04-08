@@ -5,9 +5,11 @@ package edu.dtu.s144874.thesis.ppid.serializer;
 
 import com.google.inject.Inject;
 import edu.dtu.s144874.thesis.ppid.ppid.ArrayType;
+import edu.dtu.s144874.thesis.ppid.ppid.Connections;
 import edu.dtu.s144874.thesis.ppid.ppid.EndRule;
 import edu.dtu.s144874.thesis.ppid.ppid.Entity;
 import edu.dtu.s144874.thesis.ppid.ppid.EntityReference;
+import edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule;
 import edu.dtu.s144874.thesis.ppid.ppid.Model;
 import edu.dtu.s144874.thesis.ppid.ppid.Output;
 import edu.dtu.s144874.thesis.ppid.ppid.OutputProperty;
@@ -55,6 +57,9 @@ public class PpidSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 			case PpidPackage.ARRAY_TYPE:
 				sequence_ArrayType(context, (ArrayType) semanticObject); 
 				return; 
+			case PpidPackage.CONNECTIONS:
+				sequence_Connections(context, (Connections) semanticObject); 
+				return; 
 			case PpidPackage.END_RULE:
 				sequence_EndRule(context, (EndRule) semanticObject); 
 				return; 
@@ -63,6 +68,9 @@ public class PpidSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 				return; 
 			case PpidPackage.ENTITY_REFERENCE:
 				sequence_EntityReference(context, (EntityReference) semanticObject); 
+				return; 
+			case PpidPackage.EXTENDED_RULE:
+				sequence_ExtendedRule(context, (ExtendedRule) semanticObject); 
 				return; 
 			case PpidPackage.MODEL:
 				sequence_Model(context, (Model) semanticObject); 
@@ -75,6 +83,9 @@ public class PpidSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 				return; 
 			case PpidPackage.OUTPUT_VALUE:
 				sequence_OutputValue(context, (OutputValue) semanticObject); 
+				return; 
+			case PpidPackage.PROCESS:
+				sequence_Process(context, (edu.dtu.s144874.thesis.ppid.ppid.Process) semanticObject); 
 				return; 
 			case PpidPackage.PROPERTY:
 				sequence_Property(context, (Property) semanticObject); 
@@ -141,6 +152,30 @@ public class PpidSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Contexts:
+	 *     Connections returns Connections
+	 *
+	 * Constraint:
+	 *     (left=[ExtendedRule|ID] connection=Connection right=[ExtendedRule|ID])
+	 */
+	protected void sequence_Connections(ISerializationContext context, Connections semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, PpidPackage.Literals.CONNECTIONS__LEFT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, PpidPackage.Literals.CONNECTIONS__LEFT));
+			if (transientValues.isValueTransient(semanticObject, PpidPackage.Literals.CONNECTIONS__CONNECTION) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, PpidPackage.Literals.CONNECTIONS__CONNECTION));
+			if (transientValues.isValueTransient(semanticObject, PpidPackage.Literals.CONNECTIONS__RIGHT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, PpidPackage.Literals.CONNECTIONS__RIGHT));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getConnectionsAccess().getLeftExtendedRuleIDTerminalRuleCall_0_0_1(), semanticObject.eGet(PpidPackage.Literals.CONNECTIONS__LEFT, false));
+		feeder.accept(grammarAccess.getConnectionsAccess().getConnectionConnectionParserRuleCall_1_0(), semanticObject.getConnection());
+		feeder.accept(grammarAccess.getConnectionsAccess().getRightExtendedRuleIDTerminalRuleCall_2_0_1(), semanticObject.eGet(PpidPackage.Literals.CONNECTIONS__RIGHT, false));
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Contexts:
 	 *     EndRule returns EndRule
 	 *
 	 * Constraint:
@@ -190,28 +225,53 @@ public class PpidSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Contexts:
+	 *     ExtendedRule returns ExtendedRule
+	 *
+	 * Constraint:
+	 *     (name=ID rule=Rule output=Output? sink=[Sink|ID])
+	 */
+	protected void sequence_ExtendedRule(ISerializationContext context, ExtendedRule semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
 	 *     Model returns Model
 	 *
 	 * Constraint:
 	 *     (
-	 *         (entites+=Entity* ((rules+=Rule+ end=EndRule) | end=EndRule)) | 
-	 *         (entites+=Entity* sources+=Source+ ((rules+=Rule+ end=EndRule) | end=EndRule)) | 
+	 *         (entites+=Entity* ((start=StartRule processes+=Process+) | processes+=Process+)) | 
+	 *         (entites+=Entity* sources+=Source+ ((start=StartRule processes+=Process+) | processes+=Process+)) | 
 	 *         (
 	 *             ((entites+=Entity* sinks+=Sink+) | (entites+=Entity* sources+=Source+ sinks+=Sink+) | sinks+=Sink+) 
-	 *             ((rules+=Rule+ end=EndRule) | end=EndRule)
+	 *             ((start=StartRule processes+=Process+) | processes+=Process+)
 	 *         ) | 
 	 *         (
 	 *             (
-	 *                 (entites+=Entity* ((sinks+=Sink+ rules+=Rule+) | rules+=Rule+)) | 
-	 *                 (entites+=Entity* sources+=Source+ ((sinks+=Sink+ rules+=Rule+) | rules+=Rule+)) | 
-	 *                 (sinks+=Sink+ rules+=Rule+) | 
-	 *                 rules+=Rule+
-	 *             )? 
-	 *             start=StartRule 
-	 *             end=EndRule
+	 *                 (entites+=Entity* ((sinks+=Sink+ rules+=ExtendedRule+) | rules+=ExtendedRule+)) | 
+	 *                 (entites+=Entity* sources+=Source+ ((sinks+=Sink+ rules+=ExtendedRule+) | rules+=ExtendedRule+)) | 
+	 *                 (sinks+=Sink+ rules+=ExtendedRule+) | 
+	 *                 rules+=ExtendedRule+
+	 *             ) 
+	 *             ((start=StartRule processes+=Process+) | processes+=Process+)
 	 *         ) | 
-	 *         (rules+=Rule+ end=EndRule) | 
-	 *         end=EndRule
+	 *         (
+	 *             (
+	 *                 (entites+=Entity* ((rules+=ExtendedRule+ start=StartRule) | start=StartRule)) | 
+	 *                 (entites+=Entity* sources+=Source+ ((rules+=ExtendedRule+ start=StartRule) | start=StartRule)) | 
+	 *                 (
+	 *                     ((entites+=Entity* sinks+=Sink+) | (entites+=Entity* sources+=Source+ sinks+=Sink+) | sinks+=Sink+) 
+	 *                     ((rules+=ExtendedRule+ start=StartRule) | start=StartRule)
+	 *                 ) | 
+	 *                 (rules+=ExtendedRule+ start=StartRule) | 
+	 *                 start=StartRule
+	 *             )? 
+	 *             end=EndRule 
+	 *             processes+=Process+
+	 *         ) | 
+	 *         (start=StartRule processes+=Process+) | 
+	 *         processes+=Process+
 	 *     )?
 	 */
 	protected void sequence_Model(ISerializationContext context, Model semanticObject) {
@@ -266,6 +326,18 @@ public class PpidSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Contexts:
+	 *     Process returns Process
+	 *
+	 * Constraint:
+	 *     (name=ID startRule=StartRule connections+=Connections*)
+	 */
+	protected void sequence_Process(ISerializationContext context, edu.dtu.s144874.thesis.ppid.ppid.Process semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
 	 *     PropertyReference returns PropertyReference
 	 *
 	 * Constraint:
@@ -308,7 +380,7 @@ public class PpidSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     Rule returns Rule
 	 *
 	 * Constraint:
-	 *     (updates+=SourceUpdate updates+=SourceUpdate* output=Output? sink=[Sink|ID])
+	 *     (updates+=SourceUpdate updates+=SourceUpdate*)
 	 */
 	protected void sequence_Rule(ISerializationContext context, Rule semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

@@ -168,6 +168,33 @@ public interface PpidFactory extends EFactory
   Rule createRule();
 
   /**
+   * Returns a new object of class '<em>Extended Rule</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Extended Rule</em>'.
+   * @generated
+   */
+  ExtendedRule createExtendedRule();
+
+  /**
+   * Returns a new object of class '<em>Process</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Process</em>'.
+   * @generated
+   */
+  Process createProcess();
+
+  /**
+   * Returns a new object of class '<em>Connections</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Connections</em>'.
+   * @generated
+   */
+  Connections createConnections();
+
+  /**
    * Returns a new object of class '<em>Start Rule</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

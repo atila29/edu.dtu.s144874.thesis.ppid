@@ -17,9 +17,10 @@ Model:
     entites+=Entity*
     sources+=Source*
     sinks+=Sink*
-    rules+=Rule*
+    rules+=ExtendedRule*
     start=StartRule?
     end=EndRule?
+    processes+=Process*
 ;
 
 
@@ -84,7 +85,34 @@ SourceUpdate:
 ;
 
 Rule:
-	updates+=SourceUpdate ('and' updates+=SourceUpdate)* ('=>' output=Output)? 'into' sink=[Sink]
+	updates+=SourceUpdate ('and' updates+=SourceUpdate)*
+;
+
+ExtendedRule:
+	'rule' name=ID rule=Rule ('=>' output=Output)? 'into' sink=[Sink]
+;
+
+Process:
+	'process' name=ID '{'
+	startRule=StartRule
+	connections+=(Connections)*
+	'}'
+;
+
+Connections:
+	left=[ExtendedRule] connection=Connection right=[ExtendedRule]
+;
+
+Connection:
+	(OneWayConnection | BothWayConnection)
+;
+
+OneWayConnection:
+	'->'
+;
+
+BothWayConnection:
+	'<->'
 ;
 
 StartRule:

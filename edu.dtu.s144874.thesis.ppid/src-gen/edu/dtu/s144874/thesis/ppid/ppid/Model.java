@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link edu.dtu.s144874.thesis.ppid.ppid.Model#getRules <em>Rules</em>}</li>
  *   <li>{@link edu.dtu.s144874.thesis.ppid.ppid.Model#getStart <em>Start</em>}</li>
  *   <li>{@link edu.dtu.s144874.thesis.ppid.ppid.Model#getEnd <em>End</em>}</li>
+ *   <li>{@link edu.dtu.s144874.thesis.ppid.ppid.Model#getProcesses <em>Processes</em>}</li>
  * </ul>
  *
  * @see edu.dtu.s144874.thesis.ppid.ppid.PpidPackage#getModel()
@@ -68,7 +69,7 @@ public interface Model extends EObject
 
   /**
    * Returns the value of the '<em><b>Rules</b></em>' containment reference list.
-   * The list contents are of type {@link edu.dtu.s144874.thesis.ppid.ppid.Rule}.
+   * The list contents are of type {@link edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the value of the '<em>Rules</em>' containment reference list.
@@ -76,7 +77,7 @@ public interface Model extends EObject
    * @model containment="true"
    * @generated
    */
-  EList<Rule> getRules();
+  EList<ExtendedRule> getRules();
 
   /**
    * Returns the value of the '<em><b>Start</b></em>' containment reference.
@@ -121,5 +122,17 @@ public interface Model extends EObject
    * @generated
    */
   void setEnd(EndRule value);
+
+  /**
+   * Returns the value of the '<em><b>Processes</b></em>' containment reference list.
+   * The list contents are of type {@link edu.dtu.s144874.thesis.ppid.ppid.Process}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Processes</em>' containment reference list.
+   * @see edu.dtu.s144874.thesis.ppid.ppid.PpidPackage#getModel_Processes()
+   * @model containment="true"
+   * @generated
+   */
+  EList<edu.dtu.s144874.thesis.ppid.ppid.Process> getProcesses();
 
 } // Model

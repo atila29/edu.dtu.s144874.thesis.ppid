@@ -9,11 +9,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="sinks" upperBound="-1"
         eType="#//Sink" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
-        eType="#//Rule" containment="true"/>
+        eType="#//ExtendedRule" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="start" eType="#//StartRule"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="end" eType="#//EndRule"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processes" upperBound="-1"
+        eType="#//Process" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Entity">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -77,9 +79,25 @@
   <eClassifiers xsi:type="ecore:EClass" name="Rule">
     <eStructuralFeatures xsi:type="ecore:EReference" name="updates" upperBound="-1"
         eType="#//SourceUpdate" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExtendedRule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" eType="#//Rule" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="output" eType="#//Output"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="sink" eType="#//Sink"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Process">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="startRule" eType="#//StartRule"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connections" upperBound="-1"
+        eType="#//Connections" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connections">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//ExtendedRule"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="connection" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//ExtendedRule"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StartRule">
     <eStructuralFeatures xsi:type="ecore:EReference" name="rule" eType="#//Rule" containment="true"/>

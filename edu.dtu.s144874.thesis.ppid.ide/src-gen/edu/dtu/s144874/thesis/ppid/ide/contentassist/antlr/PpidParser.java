@@ -34,6 +34,7 @@ public class PpidParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getTypeAccess().getAlternatives(), "rule__Type__Alternatives");
 			builder.put(grammarAccess.getUpdateAccess().getAlternatives(), "rule__Update__Alternatives");
 			builder.put(grammarAccess.getOutputValueAccess().getAlternatives(), "rule__OutputValue__Alternatives");
+			builder.put(grammarAccess.getConnectionAccess().getAlternatives(), "rule__Connection__Alternatives");
 			builder.put(grammarAccess.getPrimitiveTypeAccess().getAlternatives(), "rule__PrimitiveType__Alternatives");
 			builder.put(grammarAccess.getModelAccess().getGroup(), "rule__Model__Group__0");
 			builder.put(grammarAccess.getEntityAccess().getGroup(), "rule__Entity__Group__0");
@@ -47,7 +48,10 @@ public class PpidParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getSourceUpdateAccess().getGroup(), "rule__SourceUpdate__Group__0");
 			builder.put(grammarAccess.getRuleAccess().getGroup(), "rule__Rule__Group__0");
 			builder.put(grammarAccess.getRuleAccess().getGroup_1(), "rule__Rule__Group_1__0");
-			builder.put(grammarAccess.getRuleAccess().getGroup_2(), "rule__Rule__Group_2__0");
+			builder.put(grammarAccess.getExtendedRuleAccess().getGroup(), "rule__ExtendedRule__Group__0");
+			builder.put(grammarAccess.getExtendedRuleAccess().getGroup_3(), "rule__ExtendedRule__Group_3__0");
+			builder.put(grammarAccess.getProcessAccess().getGroup(), "rule__Process__Group__0");
+			builder.put(grammarAccess.getConnectionsAccess().getGroup(), "rule__Connections__Group__0");
 			builder.put(grammarAccess.getStartRuleAccess().getGroup(), "rule__StartRule__Group__0");
 			builder.put(grammarAccess.getEndRuleAccess().getGroup(), "rule__EndRule__Group__0");
 			builder.put(grammarAccess.getUpdateAboveAccess().getGroup(), "rule__UpdateAbove__Group__0");
@@ -61,6 +65,7 @@ public class PpidParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getModelAccess().getRulesAssignment_3(), "rule__Model__RulesAssignment_3");
 			builder.put(grammarAccess.getModelAccess().getStartAssignment_4(), "rule__Model__StartAssignment_4");
 			builder.put(grammarAccess.getModelAccess().getEndAssignment_5(), "rule__Model__EndAssignment_5");
+			builder.put(grammarAccess.getModelAccess().getProcessesAssignment_6(), "rule__Model__ProcessesAssignment_6");
 			builder.put(grammarAccess.getEntityAccess().getNameAssignment_1(), "rule__Entity__NameAssignment_1");
 			builder.put(grammarAccess.getEntityAccess().getPropertiesAssignment_3(), "rule__Entity__PropertiesAssignment_3");
 			builder.put(grammarAccess.getSourceAccess().getNameAssignment_1(), "rule__Source__NameAssignment_1");
@@ -86,8 +91,16 @@ public class PpidParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getSourceUpdateAccess().getUpdateAssignment_4(), "rule__SourceUpdate__UpdateAssignment_4");
 			builder.put(grammarAccess.getRuleAccess().getUpdatesAssignment_0(), "rule__Rule__UpdatesAssignment_0");
 			builder.put(grammarAccess.getRuleAccess().getUpdatesAssignment_1_1(), "rule__Rule__UpdatesAssignment_1_1");
-			builder.put(grammarAccess.getRuleAccess().getOutputAssignment_2_1(), "rule__Rule__OutputAssignment_2_1");
-			builder.put(grammarAccess.getRuleAccess().getSinkAssignment_4(), "rule__Rule__SinkAssignment_4");
+			builder.put(grammarAccess.getExtendedRuleAccess().getNameAssignment_1(), "rule__ExtendedRule__NameAssignment_1");
+			builder.put(grammarAccess.getExtendedRuleAccess().getRuleAssignment_2(), "rule__ExtendedRule__RuleAssignment_2");
+			builder.put(grammarAccess.getExtendedRuleAccess().getOutputAssignment_3_1(), "rule__ExtendedRule__OutputAssignment_3_1");
+			builder.put(grammarAccess.getExtendedRuleAccess().getSinkAssignment_5(), "rule__ExtendedRule__SinkAssignment_5");
+			builder.put(grammarAccess.getProcessAccess().getNameAssignment_1(), "rule__Process__NameAssignment_1");
+			builder.put(grammarAccess.getProcessAccess().getStartRuleAssignment_3(), "rule__Process__StartRuleAssignment_3");
+			builder.put(grammarAccess.getProcessAccess().getConnectionsAssignment_4(), "rule__Process__ConnectionsAssignment_4");
+			builder.put(grammarAccess.getConnectionsAccess().getLeftAssignment_0(), "rule__Connections__LeftAssignment_0");
+			builder.put(grammarAccess.getConnectionsAccess().getConnectionAssignment_1(), "rule__Connections__ConnectionAssignment_1");
+			builder.put(grammarAccess.getConnectionsAccess().getRightAssignment_2(), "rule__Connections__RightAssignment_2");
 			builder.put(grammarAccess.getStartRuleAccess().getRuleAssignment_1(), "rule__StartRule__RuleAssignment_1");
 			builder.put(grammarAccess.getEndRuleAccess().getRuleAssignment_1(), "rule__EndRule__RuleAssignment_1");
 			builder.put(grammarAccess.getUpdateAboveAccess().getNAssignment_2(), "rule__UpdateAbove__NAssignment_2");

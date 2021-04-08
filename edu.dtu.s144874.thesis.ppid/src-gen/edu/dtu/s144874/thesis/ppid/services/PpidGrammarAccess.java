@@ -36,11 +36,13 @@ public class PpidGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final Assignment cSinksAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final RuleCall cSinksSinkParserRuleCall_2_0 = (RuleCall)cSinksAssignment_2.eContents().get(0);
 		private final Assignment cRulesAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cRulesRuleParserRuleCall_3_0 = (RuleCall)cRulesAssignment_3.eContents().get(0);
+		private final RuleCall cRulesExtendedRuleParserRuleCall_3_0 = (RuleCall)cRulesAssignment_3.eContents().get(0);
 		private final Assignment cStartAssignment_4 = (Assignment)cGroup.eContents().get(4);
 		private final RuleCall cStartStartRuleParserRuleCall_4_0 = (RuleCall)cStartAssignment_4.eContents().get(0);
 		private final Assignment cEndAssignment_5 = (Assignment)cGroup.eContents().get(5);
 		private final RuleCall cEndEndRuleParserRuleCall_5_0 = (RuleCall)cEndAssignment_5.eContents().get(0);
+		private final Assignment cProcessesAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cProcessesProcessParserRuleCall_6_0 = (RuleCall)cProcessesAssignment_6.eContents().get(0);
 		
 		////@source(type = 'mqtt', url = "tcp://127.0.0.1:1883", client.id = "siddhidsi", topic = "f/i/state/dsi", 
 		////	@map(type = 'json'))
@@ -51,17 +53,19 @@ public class PpidGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//	entites+=Entity*
 		//	sources+=Source*
 		//	sinks+=Sink*
-		//	rules+=Rule*
+		//	rules+=ExtendedRule*
 		//	start=StartRule?
-		//	end=EndRule?;
+		//	end=EndRule?
+		//	processes+=Process*;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//entites+=Entity*
 		//sources+=Source*
 		//sinks+=Sink*
-		//rules+=Rule*
+		//rules+=ExtendedRule*
 		//start=StartRule?
 		//end=EndRule?
+		//processes+=Process*
 		public Group getGroup() { return cGroup; }
 		
 		//entites+=Entity*
@@ -82,11 +86,11 @@ public class PpidGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//Sink
 		public RuleCall getSinksSinkParserRuleCall_2_0() { return cSinksSinkParserRuleCall_2_0; }
 		
-		//rules+=Rule*
+		//rules+=ExtendedRule*
 		public Assignment getRulesAssignment_3() { return cRulesAssignment_3; }
 		
-		//Rule
-		public RuleCall getRulesRuleParserRuleCall_3_0() { return cRulesRuleParserRuleCall_3_0; }
+		//ExtendedRule
+		public RuleCall getRulesExtendedRuleParserRuleCall_3_0() { return cRulesExtendedRuleParserRuleCall_3_0; }
 		
 		//start=StartRule?
 		public Assignment getStartAssignment_4() { return cStartAssignment_4; }
@@ -99,6 +103,12 @@ public class PpidGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		
 		//EndRule
 		public RuleCall getEndEndRuleParserRuleCall_5_0() { return cEndEndRuleParserRuleCall_5_0; }
+		
+		//processes+=Process*
+		public Assignment getProcessesAssignment_6() { return cProcessesAssignment_6; }
+		
+		//Process
+		public RuleCall getProcessesProcessParserRuleCall_6_0() { return cProcessesProcessParserRuleCall_6_0; }
 	}
 	public class EntityElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "edu.dtu.s144874.thesis.ppid.Ppid.Entity");
@@ -559,20 +569,12 @@ public class PpidGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final Keyword cAndKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
 		private final Assignment cUpdatesAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
 		private final RuleCall cUpdatesSourceUpdateParserRuleCall_1_1_0 = (RuleCall)cUpdatesAssignment_1_1.eContents().get(0);
-		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
-		private final Keyword cEqualsSignGreaterThanSignKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
-		private final Assignment cOutputAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
-		private final RuleCall cOutputOutputParserRuleCall_2_1_0 = (RuleCall)cOutputAssignment_2_1.eContents().get(0);
-		private final Keyword cIntoKeyword_3 = (Keyword)cGroup.eContents().get(3);
-		private final Assignment cSinkAssignment_4 = (Assignment)cGroup.eContents().get(4);
-		private final CrossReference cSinkSinkCrossReference_4_0 = (CrossReference)cSinkAssignment_4.eContents().get(0);
-		private final RuleCall cSinkSinkIDTerminalRuleCall_4_0_1 = (RuleCall)cSinkSinkCrossReference_4_0.eContents().get(1);
 		
 		//Rule:
-		//	updates+=SourceUpdate ('and' updates+=SourceUpdate)* ('=>' output=Output)? 'into' sink=[Sink];
+		//	updates+=SourceUpdate ('and' updates+=SourceUpdate)*;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//updates+=SourceUpdate ('and' updates+=SourceUpdate)* ('=>' output=Output)? 'into' sink=[Sink]
+		//updates+=SourceUpdate ('and' updates+=SourceUpdate)*
 		public Group getGroup() { return cGroup; }
 		
 		//updates+=SourceUpdate
@@ -592,30 +594,206 @@ public class PpidGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		
 		//SourceUpdate
 		public RuleCall getUpdatesSourceUpdateParserRuleCall_1_1_0() { return cUpdatesSourceUpdateParserRuleCall_1_1_0; }
+	}
+	public class ExtendedRuleElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "edu.dtu.s144874.thesis.ppid.Ppid.ExtendedRule");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cRuleKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
+		private final Assignment cRuleAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cRuleRuleParserRuleCall_2_0 = (RuleCall)cRuleAssignment_2.eContents().get(0);
+		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
+		private final Keyword cEqualsSignGreaterThanSignKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
+		private final Assignment cOutputAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
+		private final RuleCall cOutputOutputParserRuleCall_3_1_0 = (RuleCall)cOutputAssignment_3_1.eContents().get(0);
+		private final Keyword cIntoKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Assignment cSinkAssignment_5 = (Assignment)cGroup.eContents().get(5);
+		private final CrossReference cSinkSinkCrossReference_5_0 = (CrossReference)cSinkAssignment_5.eContents().get(0);
+		private final RuleCall cSinkSinkIDTerminalRuleCall_5_0_1 = (RuleCall)cSinkSinkCrossReference_5_0.eContents().get(1);
 		
-		//('=>' output=Output)?
-		public Group getGroup_2() { return cGroup_2; }
+		//ExtendedRule:
+		//	'rule' name=ID rule=Rule ('=>' output=Output)? 'into' sink=[Sink];
+		@Override public ParserRule getRule() { return rule; }
 		
-		//'=>'
-		public Keyword getEqualsSignGreaterThanSignKeyword_2_0() { return cEqualsSignGreaterThanSignKeyword_2_0; }
+		//'rule' name=ID rule=Rule ('=>' output=Output)? 'into' sink=[Sink]
+		public Group getGroup() { return cGroup; }
 		
-		//output=Output
-		public Assignment getOutputAssignment_2_1() { return cOutputAssignment_2_1; }
+		//'rule'
+		public Keyword getRuleKeyword_0() { return cRuleKeyword_0; }
 		
-		//Output
-		public RuleCall getOutputOutputParserRuleCall_2_1_0() { return cOutputOutputParserRuleCall_2_1_0; }
-		
-		//'into'
-		public Keyword getIntoKeyword_3() { return cIntoKeyword_3; }
-		
-		//sink=[Sink]
-		public Assignment getSinkAssignment_4() { return cSinkAssignment_4; }
-		
-		//[Sink]
-		public CrossReference getSinkSinkCrossReference_4_0() { return cSinkSinkCrossReference_4_0; }
+		//name=ID
+		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
 		
 		//ID
-		public RuleCall getSinkSinkIDTerminalRuleCall_4_0_1() { return cSinkSinkIDTerminalRuleCall_4_0_1; }
+		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
+		
+		//rule=Rule
+		public Assignment getRuleAssignment_2() { return cRuleAssignment_2; }
+		
+		//Rule
+		public RuleCall getRuleRuleParserRuleCall_2_0() { return cRuleRuleParserRuleCall_2_0; }
+		
+		//('=>' output=Output)?
+		public Group getGroup_3() { return cGroup_3; }
+		
+		//'=>'
+		public Keyword getEqualsSignGreaterThanSignKeyword_3_0() { return cEqualsSignGreaterThanSignKeyword_3_0; }
+		
+		//output=Output
+		public Assignment getOutputAssignment_3_1() { return cOutputAssignment_3_1; }
+		
+		//Output
+		public RuleCall getOutputOutputParserRuleCall_3_1_0() { return cOutputOutputParserRuleCall_3_1_0; }
+		
+		//'into'
+		public Keyword getIntoKeyword_4() { return cIntoKeyword_4; }
+		
+		//sink=[Sink]
+		public Assignment getSinkAssignment_5() { return cSinkAssignment_5; }
+		
+		//[Sink]
+		public CrossReference getSinkSinkCrossReference_5_0() { return cSinkSinkCrossReference_5_0; }
+		
+		//ID
+		public RuleCall getSinkSinkIDTerminalRuleCall_5_0_1() { return cSinkSinkIDTerminalRuleCall_5_0_1; }
+	}
+	public class ProcessElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "edu.dtu.s144874.thesis.ppid.Ppid.Process");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cProcessKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
+		private final Keyword cLeftCurlyBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cStartRuleAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cStartRuleStartRuleParserRuleCall_3_0 = (RuleCall)cStartRuleAssignment_3.eContents().get(0);
+		private final Assignment cConnectionsAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cConnectionsConnectionsParserRuleCall_4_0 = (RuleCall)cConnectionsAssignment_4.eContents().get(0);
+		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		
+		//Process:
+		//	'process' name=ID '{'
+		//	startRule=StartRule
+		//	connections+=Connections*
+		//	'}';
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'process' name=ID '{'
+		//startRule=StartRule
+		//connections+=Connections*
+		//'}'
+		public Group getGroup() { return cGroup; }
+		
+		//'process'
+		public Keyword getProcessKeyword_0() { return cProcessKeyword_0; }
+		
+		//name=ID
+		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
+		
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
+		
+		//'{'
+		public Keyword getLeftCurlyBracketKeyword_2() { return cLeftCurlyBracketKeyword_2; }
+		
+		//startRule=StartRule
+		public Assignment getStartRuleAssignment_3() { return cStartRuleAssignment_3; }
+		
+		//StartRule
+		public RuleCall getStartRuleStartRuleParserRuleCall_3_0() { return cStartRuleStartRuleParserRuleCall_3_0; }
+		
+		//connections+=Connections*
+		public Assignment getConnectionsAssignment_4() { return cConnectionsAssignment_4; }
+		
+		//Connections
+		public RuleCall getConnectionsConnectionsParserRuleCall_4_0() { return cConnectionsConnectionsParserRuleCall_4_0; }
+		
+		//'}'
+		public Keyword getRightCurlyBracketKeyword_5() { return cRightCurlyBracketKeyword_5; }
+	}
+	public class ConnectionsElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "edu.dtu.s144874.thesis.ppid.Ppid.Connections");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cLeftAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final CrossReference cLeftExtendedRuleCrossReference_0_0 = (CrossReference)cLeftAssignment_0.eContents().get(0);
+		private final RuleCall cLeftExtendedRuleIDTerminalRuleCall_0_0_1 = (RuleCall)cLeftExtendedRuleCrossReference_0_0.eContents().get(1);
+		private final Assignment cConnectionAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cConnectionConnectionParserRuleCall_1_0 = (RuleCall)cConnectionAssignment_1.eContents().get(0);
+		private final Assignment cRightAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final CrossReference cRightExtendedRuleCrossReference_2_0 = (CrossReference)cRightAssignment_2.eContents().get(0);
+		private final RuleCall cRightExtendedRuleIDTerminalRuleCall_2_0_1 = (RuleCall)cRightExtendedRuleCrossReference_2_0.eContents().get(1);
+		
+		//Connections:
+		//	left=[ExtendedRule] connection=Connection right=[ExtendedRule];
+		@Override public ParserRule getRule() { return rule; }
+		
+		//left=[ExtendedRule] connection=Connection right=[ExtendedRule]
+		public Group getGroup() { return cGroup; }
+		
+		//left=[ExtendedRule]
+		public Assignment getLeftAssignment_0() { return cLeftAssignment_0; }
+		
+		//[ExtendedRule]
+		public CrossReference getLeftExtendedRuleCrossReference_0_0() { return cLeftExtendedRuleCrossReference_0_0; }
+		
+		//ID
+		public RuleCall getLeftExtendedRuleIDTerminalRuleCall_0_0_1() { return cLeftExtendedRuleIDTerminalRuleCall_0_0_1; }
+		
+		//connection=Connection
+		public Assignment getConnectionAssignment_1() { return cConnectionAssignment_1; }
+		
+		//Connection
+		public RuleCall getConnectionConnectionParserRuleCall_1_0() { return cConnectionConnectionParserRuleCall_1_0; }
+		
+		//right=[ExtendedRule]
+		public Assignment getRightAssignment_2() { return cRightAssignment_2; }
+		
+		//[ExtendedRule]
+		public CrossReference getRightExtendedRuleCrossReference_2_0() { return cRightExtendedRuleCrossReference_2_0; }
+		
+		//ID
+		public RuleCall getRightExtendedRuleIDTerminalRuleCall_2_0_1() { return cRightExtendedRuleIDTerminalRuleCall_2_0_1; }
+	}
+	public class ConnectionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "edu.dtu.s144874.thesis.ppid.Ppid.Connection");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cOneWayConnectionParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cBothWayConnectionParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		
+		//Connection:
+		//	OneWayConnection | BothWayConnection;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//OneWayConnection | BothWayConnection
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//OneWayConnection
+		public RuleCall getOneWayConnectionParserRuleCall_0() { return cOneWayConnectionParserRuleCall_0; }
+		
+		//BothWayConnection
+		public RuleCall getBothWayConnectionParserRuleCall_1() { return cBothWayConnectionParserRuleCall_1; }
+	}
+	public class OneWayConnectionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "edu.dtu.s144874.thesis.ppid.Ppid.OneWayConnection");
+		private final Keyword cHyphenMinusGreaterThanSignKeyword = (Keyword)rule.eContents().get(1);
+		
+		//OneWayConnection:
+		//	'->';
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'->'
+		public Keyword getHyphenMinusGreaterThanSignKeyword() { return cHyphenMinusGreaterThanSignKeyword; }
+	}
+	public class BothWayConnectionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "edu.dtu.s144874.thesis.ppid.Ppid.BothWayConnection");
+		private final Keyword cLessThanSignHyphenMinusGreaterThanSignKeyword = (Keyword)rule.eContents().get(1);
+		
+		//BothWayConnection:
+		//	'<->';
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'<->'
+		public Keyword getLessThanSignHyphenMinusGreaterThanSignKeyword() { return cLessThanSignHyphenMinusGreaterThanSignKeyword; }
 	}
 	public class StartRuleElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "edu.dtu.s144874.thesis.ppid.Ppid.StartRule");
@@ -876,6 +1054,12 @@ public class PpidGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	private final OutputElements pOutput;
 	private final SourceUpdateElements pSourceUpdate;
 	private final RuleElements pRule;
+	private final ExtendedRuleElements pExtendedRule;
+	private final ProcessElements pProcess;
+	private final ConnectionsElements pConnections;
+	private final ConnectionElements pConnection;
+	private final OneWayConnectionElements pOneWayConnection;
+	private final BothWayConnectionElements pBothWayConnection;
 	private final StartRuleElements pStartRule;
 	private final EndRuleElements pEndRule;
 	private final UpdateAboveElements pUpdateAbove;
@@ -910,6 +1094,12 @@ public class PpidGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		this.pOutput = new OutputElements();
 		this.pSourceUpdate = new SourceUpdateElements();
 		this.pRule = new RuleElements();
+		this.pExtendedRule = new ExtendedRuleElements();
+		this.pProcess = new ProcessElements();
+		this.pConnections = new ConnectionsElements();
+		this.pConnection = new ConnectionElements();
+		this.pOneWayConnection = new OneWayConnectionElements();
+		this.pBothWayConnection = new BothWayConnectionElements();
 		this.pStartRule = new StartRuleElements();
 		this.pEndRule = new EndRuleElements();
 		this.pUpdateAbove = new UpdateAboveElements();
@@ -955,9 +1145,10 @@ public class PpidGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	//	entites+=Entity*
 	//	sources+=Source*
 	//	sinks+=Sink*
-	//	rules+=Rule*
+	//	rules+=ExtendedRule*
 	//	start=StartRule?
-	//	end=EndRule?;
+	//	end=EndRule?
+	//	processes+=Process*;
 	public ModelElements getModelAccess() {
 		return pModel;
 	}
@@ -1121,13 +1312,76 @@ public class PpidGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	}
 	
 	//Rule:
-	//	updates+=SourceUpdate ('and' updates+=SourceUpdate)* ('=>' output=Output)? 'into' sink=[Sink];
+	//	updates+=SourceUpdate ('and' updates+=SourceUpdate)*;
 	public RuleElements getRuleAccess() {
 		return pRule;
 	}
 	
 	public ParserRule getRuleRule() {
 		return getRuleAccess().getRule();
+	}
+	
+	//ExtendedRule:
+	//	'rule' name=ID rule=Rule ('=>' output=Output)? 'into' sink=[Sink];
+	public ExtendedRuleElements getExtendedRuleAccess() {
+		return pExtendedRule;
+	}
+	
+	public ParserRule getExtendedRuleRule() {
+		return getExtendedRuleAccess().getRule();
+	}
+	
+	//Process:
+	//	'process' name=ID '{'
+	//	startRule=StartRule
+	//	connections+=Connections*
+	//	'}';
+	public ProcessElements getProcessAccess() {
+		return pProcess;
+	}
+	
+	public ParserRule getProcessRule() {
+		return getProcessAccess().getRule();
+	}
+	
+	//Connections:
+	//	left=[ExtendedRule] connection=Connection right=[ExtendedRule];
+	public ConnectionsElements getConnectionsAccess() {
+		return pConnections;
+	}
+	
+	public ParserRule getConnectionsRule() {
+		return getConnectionsAccess().getRule();
+	}
+	
+	//Connection:
+	//	OneWayConnection | BothWayConnection;
+	public ConnectionElements getConnectionAccess() {
+		return pConnection;
+	}
+	
+	public ParserRule getConnectionRule() {
+		return getConnectionAccess().getRule();
+	}
+	
+	//OneWayConnection:
+	//	'->';
+	public OneWayConnectionElements getOneWayConnectionAccess() {
+		return pOneWayConnection;
+	}
+	
+	public ParserRule getOneWayConnectionRule() {
+		return getOneWayConnectionAccess().getRule();
+	}
+	
+	//BothWayConnection:
+	//	'<->';
+	public BothWayConnectionElements getBothWayConnectionAccess() {
+		return pBothWayConnection;
+	}
+	
+	public ParserRule getBothWayConnectionRule() {
+		return getBothWayConnectionAccess().getRule();
 	}
 	
 	//StartRule:

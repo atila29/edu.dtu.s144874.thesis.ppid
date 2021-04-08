@@ -123,13 +123,22 @@ public interface PpidPackage extends EPackage
   int MODEL__END = 5;
 
   /**
+   * The feature id for the '<em><b>Processes</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MODEL__PROCESSES = 6;
+
+  /**
    * The number of structural features of the '<em>Model</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MODEL_FEATURE_COUNT = 6;
+  int MODEL_FEATURE_COUNT = 7;
 
   /**
    * The meta object id for the '{@link edu.dtu.s144874.thesis.ppid.ppid.impl.EntityImpl <em>Entity</em>}' class.
@@ -624,13 +633,50 @@ public interface PpidPackage extends EPackage
   int RULE__UPDATES = 0;
 
   /**
+   * The number of structural features of the '<em>Rule</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int RULE_FEATURE_COUNT = 1;
+
+  /**
+   * The meta object id for the '{@link edu.dtu.s144874.thesis.ppid.ppid.impl.ExtendedRuleImpl <em>Extended Rule</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see edu.dtu.s144874.thesis.ppid.ppid.impl.ExtendedRuleImpl
+   * @see edu.dtu.s144874.thesis.ppid.ppid.impl.PpidPackageImpl#getExtendedRule()
+   * @generated
+   */
+  int EXTENDED_RULE = 16;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EXTENDED_RULE__NAME = 0;
+
+  /**
+   * The feature id for the '<em><b>Rule</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EXTENDED_RULE__RULE = 1;
+
+  /**
    * The feature id for the '<em><b>Output</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int RULE__OUTPUT = 1;
+  int EXTENDED_RULE__OUTPUT = 2;
 
   /**
    * The feature id for the '<em><b>Sink</b></em>' reference.
@@ -639,16 +685,108 @@ public interface PpidPackage extends EPackage
    * @generated
    * @ordered
    */
-  int RULE__SINK = 2;
+  int EXTENDED_RULE__SINK = 3;
 
   /**
-   * The number of structural features of the '<em>Rule</em>' class.
+   * The number of structural features of the '<em>Extended Rule</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int RULE_FEATURE_COUNT = 3;
+  int EXTENDED_RULE_FEATURE_COUNT = 4;
+
+  /**
+   * The meta object id for the '{@link edu.dtu.s144874.thesis.ppid.ppid.impl.ProcessImpl <em>Process</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see edu.dtu.s144874.thesis.ppid.ppid.impl.ProcessImpl
+   * @see edu.dtu.s144874.thesis.ppid.ppid.impl.PpidPackageImpl#getProcess()
+   * @generated
+   */
+  int PROCESS = 17;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PROCESS__NAME = 0;
+
+  /**
+   * The feature id for the '<em><b>Start Rule</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PROCESS__START_RULE = 1;
+
+  /**
+   * The feature id for the '<em><b>Connections</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PROCESS__CONNECTIONS = 2;
+
+  /**
+   * The number of structural features of the '<em>Process</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PROCESS_FEATURE_COUNT = 3;
+
+  /**
+   * The meta object id for the '{@link edu.dtu.s144874.thesis.ppid.ppid.impl.ConnectionsImpl <em>Connections</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see edu.dtu.s144874.thesis.ppid.ppid.impl.ConnectionsImpl
+   * @see edu.dtu.s144874.thesis.ppid.ppid.impl.PpidPackageImpl#getConnections()
+   * @generated
+   */
+  int CONNECTIONS = 18;
+
+  /**
+   * The feature id for the '<em><b>Left</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CONNECTIONS__LEFT = 0;
+
+  /**
+   * The feature id for the '<em><b>Connection</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CONNECTIONS__CONNECTION = 1;
+
+  /**
+   * The feature id for the '<em><b>Right</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CONNECTIONS__RIGHT = 2;
+
+  /**
+   * The number of structural features of the '<em>Connections</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CONNECTIONS_FEATURE_COUNT = 3;
 
   /**
    * The meta object id for the '{@link edu.dtu.s144874.thesis.ppid.ppid.impl.StartRuleImpl <em>Start Rule</em>}' class.
@@ -658,7 +796,7 @@ public interface PpidPackage extends EPackage
    * @see edu.dtu.s144874.thesis.ppid.ppid.impl.PpidPackageImpl#getStartRule()
    * @generated
    */
-  int START_RULE = 16;
+  int START_RULE = 19;
 
   /**
    * The feature id for the '<em><b>Rule</b></em>' containment reference.
@@ -686,7 +824,7 @@ public interface PpidPackage extends EPackage
    * @see edu.dtu.s144874.thesis.ppid.ppid.impl.PpidPackageImpl#getEndRule()
    * @generated
    */
-  int END_RULE = 17;
+  int END_RULE = 20;
 
   /**
    * The feature id for the '<em><b>Rule</b></em>' containment reference.
@@ -714,7 +852,7 @@ public interface PpidPackage extends EPackage
    * @see edu.dtu.s144874.thesis.ppid.ppid.impl.PpidPackageImpl#getUpdateAbove()
    * @generated
    */
-  int UPDATE_ABOVE = 18;
+  int UPDATE_ABOVE = 21;
 
   /**
    * The feature id for the '<em><b>N</b></em>' attribute.
@@ -742,7 +880,7 @@ public interface PpidPackage extends EPackage
    * @see edu.dtu.s144874.thesis.ppid.ppid.impl.PpidPackageImpl#getUpdateBelow()
    * @generated
    */
-  int UPDATE_BELOW = 19;
+  int UPDATE_BELOW = 22;
 
   /**
    * The feature id for the '<em><b>N</b></em>' attribute.
@@ -770,7 +908,7 @@ public interface PpidPackage extends EPackage
    * @see edu.dtu.s144874.thesis.ppid.ppid.impl.PpidPackageImpl#getUpdateChange()
    * @generated
    */
-  int UPDATE_CHANGE = 20;
+  int UPDATE_CHANGE = 23;
 
   /**
    * The feature id for the '<em><b>N</b></em>' attribute.
@@ -807,7 +945,7 @@ public interface PpidPackage extends EPackage
    * @see edu.dtu.s144874.thesis.ppid.ppid.impl.PpidPackageImpl#getUpdateIs()
    * @generated
    */
-  int UPDATE_IS = 21;
+  int UPDATE_IS = 24;
 
   /**
    * The feature id for the '<em><b>N</b></em>' attribute.
@@ -835,7 +973,7 @@ public interface PpidPackage extends EPackage
    * @see edu.dtu.s144874.thesis.ppid.ppid.impl.PpidPackageImpl#getUpdateNot()
    * @generated
    */
-  int UPDATE_NOT = 22;
+  int UPDATE_NOT = 25;
 
   /**
    * The feature id for the '<em><b>N</b></em>' attribute.
@@ -863,7 +1001,7 @@ public interface PpidPackage extends EPackage
    * @see edu.dtu.s144874.thesis.ppid.ppid.impl.PpidPackageImpl#getPrimitiveType()
    * @generated
    */
-  int PRIMITIVE_TYPE = 23;
+  int PRIMITIVE_TYPE = 26;
 
 
   /**
@@ -941,6 +1079,17 @@ public interface PpidPackage extends EPackage
    * @generated
    */
   EReference getModel_End();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link edu.dtu.s144874.thesis.ppid.ppid.Model#getProcesses <em>Processes</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Processes</em>'.
+   * @see edu.dtu.s144874.thesis.ppid.ppid.Model#getProcesses()
+   * @see #getModel()
+   * @generated
+   */
+  EReference getModel_Processes();
 
   /**
    * Returns the meta object for class '{@link edu.dtu.s144874.thesis.ppid.ppid.Entity <em>Entity</em>}'.
@@ -1357,26 +1506,144 @@ public interface PpidPackage extends EPackage
   EReference getRule_Updates();
 
   /**
-   * Returns the meta object for the containment reference '{@link edu.dtu.s144874.thesis.ppid.ppid.Rule#getOutput <em>Output</em>}'.
+   * Returns the meta object for class '{@link edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule <em>Extended Rule</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Extended Rule</em>'.
+   * @see edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule
+   * @generated
+   */
+  EClass getExtendedRule();
+
+  /**
+   * Returns the meta object for the attribute '{@link edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule#getName()
+   * @see #getExtendedRule()
+   * @generated
+   */
+  EAttribute getExtendedRule_Name();
+
+  /**
+   * Returns the meta object for the containment reference '{@link edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule#getRule <em>Rule</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Rule</em>'.
+   * @see edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule#getRule()
+   * @see #getExtendedRule()
+   * @generated
+   */
+  EReference getExtendedRule_Rule();
+
+  /**
+   * Returns the meta object for the containment reference '{@link edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule#getOutput <em>Output</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference '<em>Output</em>'.
-   * @see edu.dtu.s144874.thesis.ppid.ppid.Rule#getOutput()
-   * @see #getRule()
+   * @see edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule#getOutput()
+   * @see #getExtendedRule()
    * @generated
    */
-  EReference getRule_Output();
+  EReference getExtendedRule_Output();
 
   /**
-   * Returns the meta object for the reference '{@link edu.dtu.s144874.thesis.ppid.ppid.Rule#getSink <em>Sink</em>}'.
+   * Returns the meta object for the reference '{@link edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule#getSink <em>Sink</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the reference '<em>Sink</em>'.
-   * @see edu.dtu.s144874.thesis.ppid.ppid.Rule#getSink()
-   * @see #getRule()
+   * @see edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule#getSink()
+   * @see #getExtendedRule()
    * @generated
    */
-  EReference getRule_Sink();
+  EReference getExtendedRule_Sink();
+
+  /**
+   * Returns the meta object for class '{@link edu.dtu.s144874.thesis.ppid.ppid.Process <em>Process</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Process</em>'.
+   * @see edu.dtu.s144874.thesis.ppid.ppid.Process
+   * @generated
+   */
+  EClass getProcess();
+
+  /**
+   * Returns the meta object for the attribute '{@link edu.dtu.s144874.thesis.ppid.ppid.Process#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see edu.dtu.s144874.thesis.ppid.ppid.Process#getName()
+   * @see #getProcess()
+   * @generated
+   */
+  EAttribute getProcess_Name();
+
+  /**
+   * Returns the meta object for the containment reference '{@link edu.dtu.s144874.thesis.ppid.ppid.Process#getStartRule <em>Start Rule</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Start Rule</em>'.
+   * @see edu.dtu.s144874.thesis.ppid.ppid.Process#getStartRule()
+   * @see #getProcess()
+   * @generated
+   */
+  EReference getProcess_StartRule();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link edu.dtu.s144874.thesis.ppid.ppid.Process#getConnections <em>Connections</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Connections</em>'.
+   * @see edu.dtu.s144874.thesis.ppid.ppid.Process#getConnections()
+   * @see #getProcess()
+   * @generated
+   */
+  EReference getProcess_Connections();
+
+  /**
+   * Returns the meta object for class '{@link edu.dtu.s144874.thesis.ppid.ppid.Connections <em>Connections</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Connections</em>'.
+   * @see edu.dtu.s144874.thesis.ppid.ppid.Connections
+   * @generated
+   */
+  EClass getConnections();
+
+  /**
+   * Returns the meta object for the reference '{@link edu.dtu.s144874.thesis.ppid.ppid.Connections#getLeft <em>Left</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Left</em>'.
+   * @see edu.dtu.s144874.thesis.ppid.ppid.Connections#getLeft()
+   * @see #getConnections()
+   * @generated
+   */
+  EReference getConnections_Left();
+
+  /**
+   * Returns the meta object for the attribute '{@link edu.dtu.s144874.thesis.ppid.ppid.Connections#getConnection <em>Connection</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Connection</em>'.
+   * @see edu.dtu.s144874.thesis.ppid.ppid.Connections#getConnection()
+   * @see #getConnections()
+   * @generated
+   */
+  EAttribute getConnections_Connection();
+
+  /**
+   * Returns the meta object for the reference '{@link edu.dtu.s144874.thesis.ppid.ppid.Connections#getRight <em>Right</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Right</em>'.
+   * @see edu.dtu.s144874.thesis.ppid.ppid.Connections#getRight()
+   * @see #getConnections()
+   * @generated
+   */
+  EReference getConnections_Right();
 
   /**
    * Returns the meta object for class '{@link edu.dtu.s144874.thesis.ppid.ppid.StartRule <em>Start Rule</em>}'.
@@ -1571,6 +1838,14 @@ public interface PpidPackage extends EPackage
      * @generated
      */
     EReference MODEL__END = eINSTANCE.getModel_End();
+
+    /**
+     * The meta object literal for the '<em><b>Processes</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MODEL__PROCESSES = eINSTANCE.getModel_Processes();
 
     /**
      * The meta object literal for the '{@link edu.dtu.s144874.thesis.ppid.ppid.impl.EntityImpl <em>Entity</em>}' class.
@@ -1915,12 +2190,38 @@ public interface PpidPackage extends EPackage
     EReference RULE__UPDATES = eINSTANCE.getRule_Updates();
 
     /**
+     * The meta object literal for the '{@link edu.dtu.s144874.thesis.ppid.ppid.impl.ExtendedRuleImpl <em>Extended Rule</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see edu.dtu.s144874.thesis.ppid.ppid.impl.ExtendedRuleImpl
+     * @see edu.dtu.s144874.thesis.ppid.ppid.impl.PpidPackageImpl#getExtendedRule()
+     * @generated
+     */
+    EClass EXTENDED_RULE = eINSTANCE.getExtendedRule();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EXTENDED_RULE__NAME = eINSTANCE.getExtendedRule_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Rule</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EXTENDED_RULE__RULE = eINSTANCE.getExtendedRule_Rule();
+
+    /**
      * The meta object literal for the '<em><b>Output</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference RULE__OUTPUT = eINSTANCE.getRule_Output();
+    EReference EXTENDED_RULE__OUTPUT = eINSTANCE.getExtendedRule_Output();
 
     /**
      * The meta object literal for the '<em><b>Sink</b></em>' reference feature.
@@ -1928,7 +2229,75 @@ public interface PpidPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference RULE__SINK = eINSTANCE.getRule_Sink();
+    EReference EXTENDED_RULE__SINK = eINSTANCE.getExtendedRule_Sink();
+
+    /**
+     * The meta object literal for the '{@link edu.dtu.s144874.thesis.ppid.ppid.impl.ProcessImpl <em>Process</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see edu.dtu.s144874.thesis.ppid.ppid.impl.ProcessImpl
+     * @see edu.dtu.s144874.thesis.ppid.ppid.impl.PpidPackageImpl#getProcess()
+     * @generated
+     */
+    EClass PROCESS = eINSTANCE.getProcess();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PROCESS__NAME = eINSTANCE.getProcess_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Start Rule</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference PROCESS__START_RULE = eINSTANCE.getProcess_StartRule();
+
+    /**
+     * The meta object literal for the '<em><b>Connections</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference PROCESS__CONNECTIONS = eINSTANCE.getProcess_Connections();
+
+    /**
+     * The meta object literal for the '{@link edu.dtu.s144874.thesis.ppid.ppid.impl.ConnectionsImpl <em>Connections</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see edu.dtu.s144874.thesis.ppid.ppid.impl.ConnectionsImpl
+     * @see edu.dtu.s144874.thesis.ppid.ppid.impl.PpidPackageImpl#getConnections()
+     * @generated
+     */
+    EClass CONNECTIONS = eINSTANCE.getConnections();
+
+    /**
+     * The meta object literal for the '<em><b>Left</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference CONNECTIONS__LEFT = eINSTANCE.getConnections_Left();
+
+    /**
+     * The meta object literal for the '<em><b>Connection</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CONNECTIONS__CONNECTION = eINSTANCE.getConnections_Connection();
+
+    /**
+     * The meta object literal for the '<em><b>Right</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference CONNECTIONS__RIGHT = eINSTANCE.getConnections_Right();
 
     /**
      * The meta object literal for the '{@link edu.dtu.s144874.thesis.ppid.ppid.impl.StartRuleImpl <em>Start Rule</em>}' class.

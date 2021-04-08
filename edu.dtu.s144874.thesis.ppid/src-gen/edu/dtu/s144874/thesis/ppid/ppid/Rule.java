@@ -17,8 +17,6 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link edu.dtu.s144874.thesis.ppid.ppid.Rule#getUpdates <em>Updates</em>}</li>
- *   <li>{@link edu.dtu.s144874.thesis.ppid.ppid.Rule#getOutput <em>Output</em>}</li>
- *   <li>{@link edu.dtu.s144874.thesis.ppid.ppid.Rule#getSink <em>Sink</em>}</li>
  * </ul>
  *
  * @see edu.dtu.s144874.thesis.ppid.ppid.PpidPackage#getRule()
@@ -38,49 +36,5 @@ public interface Rule extends EObject
    * @generated
    */
   EList<SourceUpdate> getUpdates();
-
-  /**
-   * Returns the value of the '<em><b>Output</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Output</em>' containment reference.
-   * @see #setOutput(Output)
-   * @see edu.dtu.s144874.thesis.ppid.ppid.PpidPackage#getRule_Output()
-   * @model containment="true"
-   * @generated
-   */
-  Output getOutput();
-
-  /**
-   * Sets the value of the '{@link edu.dtu.s144874.thesis.ppid.ppid.Rule#getOutput <em>Output</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Output</em>' containment reference.
-   * @see #getOutput()
-   * @generated
-   */
-  void setOutput(Output value);
-
-  /**
-   * Returns the value of the '<em><b>Sink</b></em>' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Sink</em>' reference.
-   * @see #setSink(Sink)
-   * @see edu.dtu.s144874.thesis.ppid.ppid.PpidPackage#getRule_Sink()
-   * @model
-   * @generated
-   */
-  Sink getSink();
-
-  /**
-   * Sets the value of the '{@link edu.dtu.s144874.thesis.ppid.ppid.Rule#getSink <em>Sink</em>}' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Sink</em>' reference.
-   * @see #getSink()
-   * @generated
-   */
-  void setSink(Sink value);
 
 } // Rule

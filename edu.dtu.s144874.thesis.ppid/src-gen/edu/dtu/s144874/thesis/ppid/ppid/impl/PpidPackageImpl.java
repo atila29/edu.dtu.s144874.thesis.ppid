@@ -4,9 +4,11 @@
 package edu.dtu.s144874.thesis.ppid.ppid.impl;
 
 import edu.dtu.s144874.thesis.ppid.ppid.ArrayType;
+import edu.dtu.s144874.thesis.ppid.ppid.Connections;
 import edu.dtu.s144874.thesis.ppid.ppid.EndRule;
 import edu.dtu.s144874.thesis.ppid.ppid.Entity;
 import edu.dtu.s144874.thesis.ppid.ppid.EntityReference;
+import edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule;
 import edu.dtu.s144874.thesis.ppid.ppid.Model;
 import edu.dtu.s144874.thesis.ppid.ppid.Output;
 import edu.dtu.s144874.thesis.ppid.ppid.OutputProperty;
@@ -157,6 +159,27 @@ public class PpidPackageImpl extends EPackageImpl implements PpidPackage
    * @generated
    */
   private EClass ruleEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass extendedRuleEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass processEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass connectionsEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -352,6 +375,17 @@ public class PpidPackageImpl extends EPackageImpl implements PpidPackage
   public EReference getModel_End()
   {
     return (EReference)modelEClass.getEStructuralFeatures().get(5);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getModel_Processes()
+  {
+    return (EReference)modelEClass.getEStructuralFeatures().get(6);
   }
 
   /**
@@ -789,9 +823,9 @@ public class PpidPackageImpl extends EPackageImpl implements PpidPackage
    * @generated
    */
   @Override
-  public EReference getRule_Output()
+  public EClass getExtendedRule()
   {
-    return (EReference)ruleEClass.getEStructuralFeatures().get(1);
+    return extendedRuleEClass;
   }
 
   /**
@@ -800,9 +834,130 @@ public class PpidPackageImpl extends EPackageImpl implements PpidPackage
    * @generated
    */
   @Override
-  public EReference getRule_Sink()
+  public EAttribute getExtendedRule_Name()
   {
-    return (EReference)ruleEClass.getEStructuralFeatures().get(2);
+    return (EAttribute)extendedRuleEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getExtendedRule_Rule()
+  {
+    return (EReference)extendedRuleEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getExtendedRule_Output()
+  {
+    return (EReference)extendedRuleEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getExtendedRule_Sink()
+  {
+    return (EReference)extendedRuleEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EClass getProcess()
+  {
+    return processEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getProcess_Name()
+  {
+    return (EAttribute)processEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getProcess_StartRule()
+  {
+    return (EReference)processEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getProcess_Connections()
+  {
+    return (EReference)processEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EClass getConnections()
+  {
+    return connectionsEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getConnections_Left()
+  {
+    return (EReference)connectionsEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getConnections_Connection()
+  {
+    return (EAttribute)connectionsEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getConnections_Right()
+  {
+    return (EReference)connectionsEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -964,6 +1119,7 @@ public class PpidPackageImpl extends EPackageImpl implements PpidPackage
     createEReference(modelEClass, MODEL__RULES);
     createEReference(modelEClass, MODEL__START);
     createEReference(modelEClass, MODEL__END);
+    createEReference(modelEClass, MODEL__PROCESSES);
 
     entityEClass = createEClass(ENTITY);
     createEAttribute(entityEClass, ENTITY__NAME);
@@ -1018,8 +1174,22 @@ public class PpidPackageImpl extends EPackageImpl implements PpidPackage
 
     ruleEClass = createEClass(RULE);
     createEReference(ruleEClass, RULE__UPDATES);
-    createEReference(ruleEClass, RULE__OUTPUT);
-    createEReference(ruleEClass, RULE__SINK);
+
+    extendedRuleEClass = createEClass(EXTENDED_RULE);
+    createEAttribute(extendedRuleEClass, EXTENDED_RULE__NAME);
+    createEReference(extendedRuleEClass, EXTENDED_RULE__RULE);
+    createEReference(extendedRuleEClass, EXTENDED_RULE__OUTPUT);
+    createEReference(extendedRuleEClass, EXTENDED_RULE__SINK);
+
+    processEClass = createEClass(PROCESS);
+    createEAttribute(processEClass, PROCESS__NAME);
+    createEReference(processEClass, PROCESS__START_RULE);
+    createEReference(processEClass, PROCESS__CONNECTIONS);
+
+    connectionsEClass = createEClass(CONNECTIONS);
+    createEReference(connectionsEClass, CONNECTIONS__LEFT);
+    createEAttribute(connectionsEClass, CONNECTIONS__CONNECTION);
+    createEReference(connectionsEClass, CONNECTIONS__RIGHT);
 
     startRuleEClass = createEClass(START_RULE);
     createEReference(startRuleEClass, START_RULE__RULE);
@@ -1085,9 +1255,10 @@ public class PpidPackageImpl extends EPackageImpl implements PpidPackage
     initEReference(getModel_Entites(), this.getEntity(), null, "entites", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModel_Sources(), this.getSource(), null, "sources", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModel_Sinks(), this.getSink(), null, "sinks", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getModel_Rules(), this.getRule(), null, "rules", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getModel_Rules(), this.getExtendedRule(), null, "rules", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModel_Start(), this.getStartRule(), null, "start", null, 0, 1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getModel_End(), this.getEndRule(), null, "end", null, 0, 1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getModel_Processes(), this.getProcess(), null, "processes", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(entityEClass, Entity.class, "Entity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getEntity_Name(), ecorePackage.getEString(), "name", null, 0, 1, Entity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1142,8 +1313,22 @@ public class PpidPackageImpl extends EPackageImpl implements PpidPackage
 
     initEClass(ruleEClass, Rule.class, "Rule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getRule_Updates(), this.getSourceUpdate(), null, "updates", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getRule_Output(), this.getOutput(), null, "output", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getRule_Sink(), this.getSink(), null, "sink", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(extendedRuleEClass, ExtendedRule.class, "ExtendedRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getExtendedRule_Name(), ecorePackage.getEString(), "name", null, 0, 1, ExtendedRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getExtendedRule_Rule(), this.getRule(), null, "rule", null, 0, 1, ExtendedRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getExtendedRule_Output(), this.getOutput(), null, "output", null, 0, 1, ExtendedRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getExtendedRule_Sink(), this.getSink(), null, "sink", null, 0, 1, ExtendedRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(processEClass, edu.dtu.s144874.thesis.ppid.ppid.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getProcess_Name(), ecorePackage.getEString(), "name", null, 0, 1, edu.dtu.s144874.thesis.ppid.ppid.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getProcess_StartRule(), this.getStartRule(), null, "startRule", null, 0, 1, edu.dtu.s144874.thesis.ppid.ppid.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getProcess_Connections(), this.getConnections(), null, "connections", null, 0, -1, edu.dtu.s144874.thesis.ppid.ppid.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(connectionsEClass, Connections.class, "Connections", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getConnections_Left(), this.getExtendedRule(), null, "left", null, 0, 1, Connections.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getConnections_Connection(), ecorePackage.getEString(), "connection", null, 0, 1, Connections.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getConnections_Right(), this.getExtendedRule(), null, "right", null, 0, 1, Connections.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(startRuleEClass, StartRule.class, "StartRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getStartRule_Rule(), this.getRule(), null, "rule", null, 0, 1, StartRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

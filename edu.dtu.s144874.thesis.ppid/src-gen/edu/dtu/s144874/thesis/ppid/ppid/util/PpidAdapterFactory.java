@@ -3,7 +3,32 @@
  */
 package edu.dtu.s144874.thesis.ppid.ppid.util;
 
-import edu.dtu.s144874.thesis.ppid.ppid.*;
+import edu.dtu.s144874.thesis.ppid.ppid.ArrayType;
+import edu.dtu.s144874.thesis.ppid.ppid.Connections;
+import edu.dtu.s144874.thesis.ppid.ppid.EndRule;
+import edu.dtu.s144874.thesis.ppid.ppid.Entity;
+import edu.dtu.s144874.thesis.ppid.ppid.EntityReference;
+import edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule;
+import edu.dtu.s144874.thesis.ppid.ppid.Model;
+import edu.dtu.s144874.thesis.ppid.ppid.Output;
+import edu.dtu.s144874.thesis.ppid.ppid.OutputProperty;
+import edu.dtu.s144874.thesis.ppid.ppid.OutputValue;
+import edu.dtu.s144874.thesis.ppid.ppid.PpidPackage;
+import edu.dtu.s144874.thesis.ppid.ppid.Property;
+import edu.dtu.s144874.thesis.ppid.ppid.PropertyReference;
+import edu.dtu.s144874.thesis.ppid.ppid.Rule;
+import edu.dtu.s144874.thesis.ppid.ppid.SimpleDataType;
+import edu.dtu.s144874.thesis.ppid.ppid.Sink;
+import edu.dtu.s144874.thesis.ppid.ppid.Source;
+import edu.dtu.s144874.thesis.ppid.ppid.SourceUpdate;
+import edu.dtu.s144874.thesis.ppid.ppid.StartRule;
+import edu.dtu.s144874.thesis.ppid.ppid.Type;
+import edu.dtu.s144874.thesis.ppid.ppid.Update;
+import edu.dtu.s144874.thesis.ppid.ppid.UpdateAbove;
+import edu.dtu.s144874.thesis.ppid.ppid.UpdateBelow;
+import edu.dtu.s144874.thesis.ppid.ppid.UpdateChange;
+import edu.dtu.s144874.thesis.ppid.ppid.UpdateIs;
+import edu.dtu.s144874.thesis.ppid.ppid.UpdateNot;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -154,6 +179,21 @@ public class PpidAdapterFactory extends AdapterFactoryImpl
       public Adapter caseRule(Rule object)
       {
         return createRuleAdapter();
+      }
+      @Override
+      public Adapter caseExtendedRule(ExtendedRule object)
+      {
+        return createExtendedRuleAdapter();
+      }
+      @Override
+      public Adapter caseProcess(edu.dtu.s144874.thesis.ppid.ppid.Process object)
+      {
+        return createProcessAdapter();
+      }
+      @Override
+      public Adapter caseConnections(Connections object)
+      {
+        return createConnectionsAdapter();
       }
       @Override
       public Adapter caseStartRule(StartRule object)
@@ -448,6 +488,51 @@ public class PpidAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createRuleAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule <em>Extended Rule</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule
+   * @generated
+   */
+  public Adapter createExtendedRuleAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link edu.dtu.s144874.thesis.ppid.ppid.Process <em>Process</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see edu.dtu.s144874.thesis.ppid.ppid.Process
+   * @generated
+   */
+  public Adapter createProcessAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link edu.dtu.s144874.thesis.ppid.ppid.Connections <em>Connections</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see edu.dtu.s144874.thesis.ppid.ppid.Connections
+   * @generated
+   */
+  public Adapter createConnectionsAdapter()
   {
     return null;
   }

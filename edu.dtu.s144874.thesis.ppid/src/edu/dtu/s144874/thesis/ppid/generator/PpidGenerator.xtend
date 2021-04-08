@@ -47,6 +47,7 @@ import org.eclipse.emf.common.util.EList
 import edu.dtu.s144874.thesis.ppid.ppid.SourceUpdate
 import java.lang.System.Logger
 import edu.dtu.s144874.thesis.ppid.ppid.EndRule
+import edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule
 
 /**
  * Generates code from your model files on save.
@@ -99,30 +100,33 @@ class PpidGenerator extends AbstractGenerator {
 				'''
 			].join('\n')»
 			
-			«resource.allContents.toIterable.filter(Rule).map [
-				// Fix with updates from different steams/ sinks
-				val updates  = it.updates
+			«resource.allContents.toIterable.filter(ExtendedRule).map [				// Fix with updates from different steams/ sinks
+				val updates  = it.rule.updates
 				val indexedUpdates  = updates.map[new IndexedUpdate(updates.indexOf(it), it)]
-				
 			'''
 «««			from every e1 = «it.source.name»Stream, e2 = «it.source.name»Stream[«it.update.compile(it)»]
 			from every «indexedUpdates.map[it.compileFrom].join(', ')»
+			«IF it.output === null »
+			select *
+			«ELSE»
 			«it.output.compile»
+			«ENDIF»
 			having «indexedUpdates.map[it.compileHaving].join(' and ')»
 			insert into «it.sink.name»Out;
 			'''
 			].join('\n')»
 			
-			«resource.allContents.toIterable.filter(Rule).map [
+			«resource.allContents.toIterable.filter(ExtendedRule).map [
 				// Fix with updates from different steams/ sinks
-				val updates  = it.updates
+				// Should be for each sink instead of rule??
+				val updates  = it.rule.updates
 				val indexedUpdates  = updates.map[new IndexedUpdate(updates.indexOf(it), it)]
 				
 			'''
 «««			from every e1 = «it.source.name»Stream, e2 = «it.source.name»Stream[«it.update.compile(it)»]
-			from every «it.sink.name»Out#unique:deduplicate(ts, 1 sec) join «it.compileEndName»
+			from every «it.sink.name»Out join «it.rule.compileEndName»
 «««			«it.output.compile»
-			select «it.sink.name»Out.processName, str:concat('instance', convert(count(«it.compileEndName».instanceCount),'string')) as caseId, «it.sink.name»Out.activityName, «it.sink.name»Out.state, «it.sink.name»Out.resource, «it.sink.name»Out.ts
+			select «it.sink.name»Out.processName, str:concat('instance', convert(count(«it.rule.compileEndName».instanceCount),'string')) as caseId, «it.sink.name»Out.activityName, «it.sink.name»Out.state, «it.sink.name»Out.resource, «it.sink.name»Out.ts
 «««			having «indexedUpdates.map[it.compileHaving].join(' and ')»
 			insert into eventlogOut;
 			'''
@@ -199,8 +203,7 @@ class PpidGenerator extends AbstractGenerator {
 	private def compile(Type type) {
 		if (type instanceof EntityReference) {
 			'''
-				«type.entity.name»
-			'''
+				«type.entity.name»'''
 		} else if (type instanceof SimpleDataType) {
 			if(type.type == PrimitiveType.NUMBER) {
 				'int'

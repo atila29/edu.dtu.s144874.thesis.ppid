@@ -5,9 +5,9 @@ package edu.dtu.s144874.thesis.ppid.ppid.impl;
 
 import edu.dtu.s144874.thesis.ppid.ppid.EndRule;
 import edu.dtu.s144874.thesis.ppid.ppid.Entity;
+import edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule;
 import edu.dtu.s144874.thesis.ppid.ppid.Model;
 import edu.dtu.s144874.thesis.ppid.ppid.PpidPackage;
-import edu.dtu.s144874.thesis.ppid.ppid.Rule;
 import edu.dtu.s144874.thesis.ppid.ppid.Sink;
 import edu.dtu.s144874.thesis.ppid.ppid.Source;
 import edu.dtu.s144874.thesis.ppid.ppid.StartRule;
@@ -42,6 +42,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link edu.dtu.s144874.thesis.ppid.ppid.impl.ModelImpl#getRules <em>Rules</em>}</li>
  *   <li>{@link edu.dtu.s144874.thesis.ppid.ppid.impl.ModelImpl#getStart <em>Start</em>}</li>
  *   <li>{@link edu.dtu.s144874.thesis.ppid.ppid.impl.ModelImpl#getEnd <em>End</em>}</li>
+ *   <li>{@link edu.dtu.s144874.thesis.ppid.ppid.impl.ModelImpl#getProcesses <em>Processes</em>}</li>
  * </ul>
  *
  * @generated
@@ -86,7 +87,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * @generated
    * @ordered
    */
-  protected EList<Rule> rules;
+  protected EList<ExtendedRule> rules;
 
   /**
    * The cached value of the '{@link #getStart() <em>Start</em>}' containment reference.
@@ -107,6 +108,16 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * @ordered
    */
   protected EndRule end;
+
+  /**
+   * The cached value of the '{@link #getProcesses() <em>Processes</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getProcesses()
+   * @generated
+   * @ordered
+   */
+  protected EList<edu.dtu.s144874.thesis.ppid.ppid.Process> processes;
 
   /**
    * <!-- begin-user-doc -->
@@ -180,11 +191,11 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * @generated
    */
   @Override
-  public EList<Rule> getRules()
+  public EList<ExtendedRule> getRules()
   {
     if (rules == null)
     {
-      rules = new EObjectContainmentEList<Rule>(Rule.class, this, PpidPackage.MODEL__RULES);
+      rules = new EObjectContainmentEList<ExtendedRule>(ExtendedRule.class, this, PpidPackage.MODEL__RULES);
     }
     return rules;
   }
@@ -295,6 +306,21 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * @generated
    */
   @Override
+  public EList<edu.dtu.s144874.thesis.ppid.ppid.Process> getProcesses()
+  {
+    if (processes == null)
+    {
+      processes = new EObjectContainmentEList<edu.dtu.s144874.thesis.ppid.ppid.Process>(edu.dtu.s144874.thesis.ppid.ppid.Process.class, this, PpidPackage.MODEL__PROCESSES);
+    }
+    return processes;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -311,6 +337,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
         return basicSetStart(null, msgs);
       case PpidPackage.MODEL__END:
         return basicSetEnd(null, msgs);
+      case PpidPackage.MODEL__PROCESSES:
+        return ((InternalEList<?>)getProcesses()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -337,6 +365,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
         return getStart();
       case PpidPackage.MODEL__END:
         return getEnd();
+      case PpidPackage.MODEL__PROCESSES:
+        return getProcesses();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -366,13 +396,17 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
         return;
       case PpidPackage.MODEL__RULES:
         getRules().clear();
-        getRules().addAll((Collection<? extends Rule>)newValue);
+        getRules().addAll((Collection<? extends ExtendedRule>)newValue);
         return;
       case PpidPackage.MODEL__START:
         setStart((StartRule)newValue);
         return;
       case PpidPackage.MODEL__END:
         setEnd((EndRule)newValue);
+        return;
+      case PpidPackage.MODEL__PROCESSES:
+        getProcesses().clear();
+        getProcesses().addAll((Collection<? extends edu.dtu.s144874.thesis.ppid.ppid.Process>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -406,6 +440,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
       case PpidPackage.MODEL__END:
         setEnd((EndRule)null);
         return;
+      case PpidPackage.MODEL__PROCESSES:
+        getProcesses().clear();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -432,6 +469,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
         return start != null;
       case PpidPackage.MODEL__END:
         return end != null;
+      case PpidPackage.MODEL__PROCESSES:
+        return processes != null && !processes.isEmpty();
     }
     return super.eIsSet(featureID);
   }

@@ -3,15 +3,12 @@
  */
 package edu.dtu.s144874.thesis.ppid.ppid.impl;
 
-import edu.dtu.s144874.thesis.ppid.ppid.Output;
 import edu.dtu.s144874.thesis.ppid.ppid.PpidPackage;
 import edu.dtu.s144874.thesis.ppid.ppid.Rule;
-import edu.dtu.s144874.thesis.ppid.ppid.Sink;
 import edu.dtu.s144874.thesis.ppid.ppid.SourceUpdate;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -19,7 +16,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -34,8 +30,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * </p>
  * <ul>
  *   <li>{@link edu.dtu.s144874.thesis.ppid.ppid.impl.RuleImpl#getUpdates <em>Updates</em>}</li>
- *   <li>{@link edu.dtu.s144874.thesis.ppid.ppid.impl.RuleImpl#getOutput <em>Output</em>}</li>
- *   <li>{@link edu.dtu.s144874.thesis.ppid.ppid.impl.RuleImpl#getSink <em>Sink</em>}</li>
  * </ul>
  *
  * @generated
@@ -51,26 +45,6 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * @ordered
    */
   protected EList<SourceUpdate> updates;
-
-  /**
-   * The cached value of the '{@link #getOutput() <em>Output</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getOutput()
-   * @generated
-   * @ordered
-   */
-  protected Output output;
-
-  /**
-   * The cached value of the '{@link #getSink() <em>Sink</em>}' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getSink()
-   * @generated
-   * @ordered
-   */
-  protected Sink sink;
 
   /**
    * <!-- begin-user-doc -->
@@ -114,109 +88,12 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * @generated
    */
   @Override
-  public Output getOutput()
-  {
-    return output;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain basicSetOutput(Output newOutput, NotificationChain msgs)
-  {
-    Output oldOutput = output;
-    output = newOutput;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PpidPackage.RULE__OUTPUT, oldOutput, newOutput);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public void setOutput(Output newOutput)
-  {
-    if (newOutput != output)
-    {
-      NotificationChain msgs = null;
-      if (output != null)
-        msgs = ((InternalEObject)output).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - PpidPackage.RULE__OUTPUT, null, msgs);
-      if (newOutput != null)
-        msgs = ((InternalEObject)newOutput).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - PpidPackage.RULE__OUTPUT, null, msgs);
-      msgs = basicSetOutput(newOutput, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, PpidPackage.RULE__OUTPUT, newOutput, newOutput));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public Sink getSink()
-  {
-    if (sink != null && sink.eIsProxy())
-    {
-      InternalEObject oldSink = (InternalEObject)sink;
-      sink = (Sink)eResolveProxy(oldSink);
-      if (sink != oldSink)
-      {
-        if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, PpidPackage.RULE__SINK, oldSink, sink));
-      }
-    }
-    return sink;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Sink basicGetSink()
-  {
-    return sink;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public void setSink(Sink newSink)
-  {
-    Sink oldSink = sink;
-    sink = newSink;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, PpidPackage.RULE__SINK, oldSink, sink));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case PpidPackage.RULE__UPDATES:
         return ((InternalEList<?>)getUpdates()).basicRemove(otherEnd, msgs);
-      case PpidPackage.RULE__OUTPUT:
-        return basicSetOutput(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -233,11 +110,6 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
     {
       case PpidPackage.RULE__UPDATES:
         return getUpdates();
-      case PpidPackage.RULE__OUTPUT:
-        return getOutput();
-      case PpidPackage.RULE__SINK:
-        if (resolve) return getSink();
-        return basicGetSink();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -257,12 +129,6 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
         getUpdates().clear();
         getUpdates().addAll((Collection<? extends SourceUpdate>)newValue);
         return;
-      case PpidPackage.RULE__OUTPUT:
-        setOutput((Output)newValue);
-        return;
-      case PpidPackage.RULE__SINK:
-        setSink((Sink)newValue);
-        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -280,12 +146,6 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
       case PpidPackage.RULE__UPDATES:
         getUpdates().clear();
         return;
-      case PpidPackage.RULE__OUTPUT:
-        setOutput((Output)null);
-        return;
-      case PpidPackage.RULE__SINK:
-        setSink((Sink)null);
-        return;
     }
     super.eUnset(featureID);
   }
@@ -302,10 +162,6 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
     {
       case PpidPackage.RULE__UPDATES:
         return updates != null && !updates.isEmpty();
-      case PpidPackage.RULE__OUTPUT:
-        return output != null;
-      case PpidPackage.RULE__SINK:
-        return sink != null;
     }
     return super.eIsSet(featureID);
   }

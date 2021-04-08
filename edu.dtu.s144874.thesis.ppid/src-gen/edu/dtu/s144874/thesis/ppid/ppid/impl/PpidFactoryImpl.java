@@ -3,7 +3,34 @@
  */
 package edu.dtu.s144874.thesis.ppid.ppid.impl;
 
-import edu.dtu.s144874.thesis.ppid.ppid.*;
+import edu.dtu.s144874.thesis.ppid.ppid.ArrayType;
+import edu.dtu.s144874.thesis.ppid.ppid.Connections;
+import edu.dtu.s144874.thesis.ppid.ppid.EndRule;
+import edu.dtu.s144874.thesis.ppid.ppid.Entity;
+import edu.dtu.s144874.thesis.ppid.ppid.EntityReference;
+import edu.dtu.s144874.thesis.ppid.ppid.ExtendedRule;
+import edu.dtu.s144874.thesis.ppid.ppid.Model;
+import edu.dtu.s144874.thesis.ppid.ppid.Output;
+import edu.dtu.s144874.thesis.ppid.ppid.OutputProperty;
+import edu.dtu.s144874.thesis.ppid.ppid.OutputValue;
+import edu.dtu.s144874.thesis.ppid.ppid.PpidFactory;
+import edu.dtu.s144874.thesis.ppid.ppid.PpidPackage;
+import edu.dtu.s144874.thesis.ppid.ppid.PrimitiveType;
+import edu.dtu.s144874.thesis.ppid.ppid.Property;
+import edu.dtu.s144874.thesis.ppid.ppid.PropertyReference;
+import edu.dtu.s144874.thesis.ppid.ppid.Rule;
+import edu.dtu.s144874.thesis.ppid.ppid.SimpleDataType;
+import edu.dtu.s144874.thesis.ppid.ppid.Sink;
+import edu.dtu.s144874.thesis.ppid.ppid.Source;
+import edu.dtu.s144874.thesis.ppid.ppid.SourceUpdate;
+import edu.dtu.s144874.thesis.ppid.ppid.StartRule;
+import edu.dtu.s144874.thesis.ppid.ppid.Type;
+import edu.dtu.s144874.thesis.ppid.ppid.Update;
+import edu.dtu.s144874.thesis.ppid.ppid.UpdateAbove;
+import edu.dtu.s144874.thesis.ppid.ppid.UpdateBelow;
+import edu.dtu.s144874.thesis.ppid.ppid.UpdateChange;
+import edu.dtu.s144874.thesis.ppid.ppid.UpdateIs;
+import edu.dtu.s144874.thesis.ppid.ppid.UpdateNot;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -82,6 +109,9 @@ public class PpidFactoryImpl extends EFactoryImpl implements PpidFactory
       case PpidPackage.OUTPUT: return createOutput();
       case PpidPackage.SOURCE_UPDATE: return createSourceUpdate();
       case PpidPackage.RULE: return createRule();
+      case PpidPackage.EXTENDED_RULE: return createExtendedRule();
+      case PpidPackage.PROCESS: return createProcess();
+      case PpidPackage.CONNECTIONS: return createConnections();
       case PpidPackage.START_RULE: return createStartRule();
       case PpidPackage.END_RULE: return createEndRule();
       case PpidPackage.UPDATE_ABOVE: return createUpdateAbove();
@@ -318,6 +348,42 @@ public class PpidFactoryImpl extends EFactoryImpl implements PpidFactory
   {
     RuleImpl rule = new RuleImpl();
     return rule;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public ExtendedRule createExtendedRule()
+  {
+    ExtendedRuleImpl extendedRule = new ExtendedRuleImpl();
+    return extendedRule;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public edu.dtu.s144874.thesis.ppid.ppid.Process createProcess()
+  {
+    ProcessImpl process = new ProcessImpl();
+    return process;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Connections createConnections()
+  {
+    ConnectionsImpl connections = new ConnectionsImpl();
+    return connections;
   }
 
   /**
