@@ -1,0 +1,5 @@
+-------------------------------------------------------------------------------
+Test set: edu.dtu.s144874.thesis.ppid.tests.PpidParsingTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.65 s - in edu.dtu.s144874.thesis.ppid.tests.PpidParsingTest
+loadModel  Time elapsed: 0.197 s

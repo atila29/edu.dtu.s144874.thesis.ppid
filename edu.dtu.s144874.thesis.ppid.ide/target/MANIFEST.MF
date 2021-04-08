@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: edu.dtu.s144874.thesis.ppid.ide
+Bundle-ManifestVersion: 2
+Bundle-Name: edu.dtu.s144874.thesis.ppid.ide
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.202103032242
+Bundle-SymbolicName: edu.dtu.s144874.thesis.ppid.ide; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: edu.dtu.s144874.thesis.ppid,org.eclipse.xtext.ide,org.ec
+ lipse.xtext.xbase.ide,org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: edu.dtu.s144874.thesis.ppid.ide.contentassist.antlr.inte
+ rnal,edu.dtu.s144874.thesis.ppid.ide.contentassist.antlr
+

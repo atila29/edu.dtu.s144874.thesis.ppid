@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+	<extension
+		point="org.eclipse.ui.editors">
+		<editor
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
+			contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
+			default="true"
+			extensions="ppid"
+			id="edu.dtu.s144874.thesis.ppid.Ppid"
+			name="Ppid Editor">
+		</editor>
+	</extension>
+	<extension
+		point="org.eclipse.ui.handlers">
+		<handler
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclarationHandler"
+			commandId="org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclaration">
+			<activeWhen>
+				<reference
+					definitionId="edu.dtu.s144874.thesis.ppid.Ppid.Editor.opened">
+				</reference>
+			</activeWhen>
+		</handler>
+		<handler
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.editor.handler.ValidateActionHandler"
+			commandId="edu.dtu.s144874.thesis.ppid.Ppid.validate">
+			<activeWhen>
+				<reference
+					definitionId="edu.dtu.s144874.thesis.ppid.Ppid.Editor.opened">
+				</reference>
+			</activeWhen>
+		</handler>
+		<!-- copy qualified name -->
+		<handler
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedNameHandler"
+			commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName">
+			<activeWhen>
+				<reference definitionId="edu.dtu.s144874.thesis.ppid.Ppid.Editor.opened" />
+			</activeWhen>
+		</handler>
+		<handler
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedNameHandler"
+			commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedName">
+			<activeWhen>
+				<and>
+					<reference definitionId="edu.dtu.s144874.thesis.ppid.Ppid.XtextEditor.opened" />
+					<iterate>
+						<adapt type="org.eclipse.xtext.ui.editor.outline.IOutlineNode" />
+					</iterate>
+				</and>
+			</activeWhen>
+		</handler>
+	</extension>
+	<extension point="org.eclipse.core.expressions.definitions">
+		<definition id="edu.dtu.s144874.thesis.ppid.Ppid.Editor.opened">
+			<and>
+				<reference definitionId="isActiveEditorAnInstanceOfXtextEditor"/>
+				<with variable="activeEditor">
+					<test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName"
+						value="edu.dtu.s144874.thesis.ppid.Ppid"
+						forcePluginActivation="true"/>
+				</with>
+			</and>
+		</definition>
+		<definition id="edu.dtu.s144874.thesis.ppid.Ppid.XtextEditor.opened">
+			<and>
+				<reference definitionId="isXtextEditorActive"/>
+				<with variable="activeEditor">
+					<test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName"
+						value="edu.dtu.s144874.thesis.ppid.Ppid"
+						forcePluginActivation="true"/>
+				</with>
+			</and>
+		</definition>
+	</extension>
+	<extension
+			point="org.eclipse.ui.preferencePages">
+		<page
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+			id="edu.dtu.s144874.thesis.ppid.Ppid"
+			name="Ppid">
+			<keywordReference id="edu.dtu.s144874.thesis.ppid.ui.keyword_Ppid"/>
+		</page>
+		<page
+			category="edu.dtu.s144874.thesis.ppid.Ppid"
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.editor.syntaxcoloring.SyntaxColoringPreferencePage"
+			id="edu.dtu.s144874.thesis.ppid.Ppid.coloring"
+			name="Syntax Coloring">
+			<keywordReference id="edu.dtu.s144874.thesis.ppid.ui.keyword_Ppid"/>
+		</page>
+		<page
+			category="edu.dtu.s144874.thesis.ppid.Ppid"
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.editor.templates.XtextTemplatePreferencePage"
+			id="edu.dtu.s144874.thesis.ppid.Ppid.templates"
+			name="Templates">
+			<keywordReference id="edu.dtu.s144874.thesis.ppid.ui.keyword_Ppid"/>
+		</page>
+	</extension>
+	<extension
+			point="org.eclipse.ui.propertyPages">
+		<page
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+			id="edu.dtu.s144874.thesis.ppid.Ppid"
+			name="Ppid">
+			<keywordReference id="edu.dtu.s144874.thesis.ppid.ui.keyword_Ppid"/>
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+			<filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
+		</page>
+	</extension>
+	<extension
+		point="org.eclipse.ui.keywords">
+		<keyword
+			id="edu.dtu.s144874.thesis.ppid.ui.keyword_Ppid"
+			label="Ppid"/>
+	</extension>
+	<extension
+		point="org.eclipse.ui.commands">
+		<command
+			description="Trigger expensive validation"
+			id="edu.dtu.s144874.thesis.ppid.Ppid.validate"
+			name="Validate">
+		</command>
+		<!-- copy qualified name -->
+		<command
+			id="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName"
+			categoryId="org.eclipse.ui.category.edit"
+			description="Copy the qualified name for the selected element"
+			name="Copy Qualified Name">
+		</command>
+		<command
+			id="org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedName"
+			categoryId="org.eclipse.ui.category.edit"
+			description="Copy the qualified name for the selected element"
+			name="Copy Qualified Name">
+		</command>
+	</extension>
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution
+			locationURI="popup:#TextEditorContext?after=group.edit">
+			<command
+				commandId="edu.dtu.s144874.thesis.ppid.Ppid.validate"
+				style="push"
+				tooltip="Trigger expensive validation">
+				<visibleWhen checkEnabled="false">
+					<reference
+						definitionId="edu.dtu.s144874.thesis.ppid.Ppid.Editor.opened">
+					</reference>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+		<!-- copy qualified name -->
+		<menuContribution locationURI="popup:#TextEditorContext?after=copy">
+			<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName"
+				style="push" tooltip="Copy Qualified Name">
+				<visibleWhen checkEnabled="false">
+					<reference definitionId="edu.dtu.s144874.thesis.ppid.Ppid.Editor.opened" />
+				</visibleWhen>
+			</command>
+		</menuContribution>
+		<menuContribution locationURI="menu:edit?after=copy">
+			<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.EditorCopyQualifiedName"
+				style="push" tooltip="Copy Qualified Name">
+				<visibleWhen checkEnabled="false">
+					<reference definitionId="edu.dtu.s144874.thesis.ppid.Ppid.Editor.opened" />
+				</visibleWhen>
+			</command>
+		</menuContribution>
+		<menuContribution locationURI="popup:org.eclipse.xtext.ui.outline?after=additions">
+			<command commandId="org.eclipse.xtext.ui.editor.copyqualifiedname.OutlineCopyQualifiedName"
+				style="push" tooltip="Copy Qualified Name">
+				<visibleWhen checkEnabled="false">
+					<and>
+						<reference definitionId="edu.dtu.s144874.thesis.ppid.Ppid.XtextEditor.opened" />
+						<iterate>
+							<adapt type="org.eclipse.xtext.ui.editor.outline.IOutlineNode" />
+						</iterate>
+					</and>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution locationURI="popup:#TextEditorContext?endof=group.find">
+			<command commandId="org.eclipse.xtext.ui.editor.FindReferences">
+				<visibleWhen checkEnabled="false">
+					<reference definitionId="edu.dtu.s144874.thesis.ppid.Ppid.Editor.opened">
+					</reference>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+	<extension point="org.eclipse.ui.handlers">
+		<handler
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.editor.findrefs.FindReferencesHandler"
+			commandId="org.eclipse.xtext.ui.editor.FindReferences">
+			<activeWhen>
+				<reference
+					definitionId="edu.dtu.s144874.thesis.ppid.Ppid.Editor.opened">
+				</reference>
+			</activeWhen>
+		</handler>
+	</extension>
+	<extension point="org.eclipse.core.contenttype.contentTypes">
+		<content-type
+			base-type="org.eclipse.core.runtime.text"
+			file-extensions="ppid"
+			id="edu.dtu.s144874.thesis.ppid.Ppid.contenttype"
+			name="Ppid File"
+			priority="normal">
+		</content-type>
+	</extension>
+	<!-- adding resource factories -->
+	<extension
+		point="org.eclipse.emf.ecore.extension_parser">
+		<parser
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
+			type="ppid">
+		</parser>
+	</extension>
+	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
+		<resourceServiceProvider
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
+			uriExtension="ppid">
+		</resourceServiceProvider>
+	</extension>
+	<!-- marker definitions for edu.dtu.s144874.thesis.ppid.Ppid -->
+	<extension
+			id="ppid.check.fast"
+			name="Ppid Problem"
+			point="org.eclipse.core.resources.markers">
+		<super type="org.eclipse.xtext.ui.check.fast"/>
+		<persistent value="true"/>
+	</extension>
+	<extension
+			id="ppid.check.normal"
+			name="Ppid Problem"
+			point="org.eclipse.core.resources.markers">
+		<super type="org.eclipse.xtext.ui.check.normal"/>
+		<persistent value="true"/>
+	</extension>
+	<extension
+			id="ppid.check.expensive"
+			name="Ppid Problem"
+			point="org.eclipse.core.resources.markers">
+		<super type="org.eclipse.xtext.ui.check.expensive"/>
+		<persistent value="true"/>
+	</extension>
+	<extension point="org.eclipse.ui.preferencePages">
+		<page
+			category="edu.dtu.s144874.thesis.ppid.Ppid"
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.validation.ValidatorPreferencePage"
+			id="edu.dtu.s144874.thesis.ppid.Ppid.validator.preferencePage"
+			name="Errors/Warnings">
+			<keywordReference id="edu.dtu.s144874.thesis.ppid.ui.keyword_Ppid"/>
+		</page>
+	</extension>
+	<extension point="org.eclipse.xtext.builder.participant">
+		<participant
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant"
+			fileExtensions="ppid"/>
+	</extension>
+	<extension point="org.eclipse.ui.preferencePages">
+		<page
+			category="edu.dtu.s144874.thesis.ppid.Ppid"
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+			id="edu.dtu.s144874.thesis.ppid.Ppid.compiler.preferencePage"
+			name="Compiler">
+			<keywordReference id="edu.dtu.s144874.thesis.ppid.ui.keyword_Ppid"/>
+		</page>
+	</extension>
+	<extension point="org.eclipse.ui.propertyPages">
+		<page
+			category="edu.dtu.s144874.thesis.ppid.Ppid"
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+			id="edu.dtu.s144874.thesis.ppid.Ppid.compiler.propertyPage"
+			name="Compiler">
+			<keywordReference id="edu.dtu.s144874.thesis.ppid.ui.keyword_Ppid"/>
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+			<filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
+		</page>
+	</extension>
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution locationURI="popup:#TextEditorContext?after=xtext.ui.openDeclaration">
+			<command
+				commandId="org.eclipse.xtext.ui.OpenGeneratedFileCommand"
+				id="edu.dtu.s144874.thesis.ppid.Ppid.OpenGeneratedCode"
+				style="push">
+				<visibleWhen checkEnabled="false">
+					<reference definitionId="edu.dtu.s144874.thesis.ppid.Ppid.Editor.opened" />
+				</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+	<extension point="org.eclipse.ui.handlers">
+		<handler
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.generator.trace.OpenGeneratedFileHandler"
+			commandId="org.eclipse.xtext.ui.OpenGeneratedFileCommand">
+			<activeWhen>
+				<reference definitionId="edu.dtu.s144874.thesis.ppid.Ppid.Editor.opened" />
+			</activeWhen>
+		</handler>
+	</extension>
+	<!-- Quick Outline -->
+	<extension
+		point="org.eclipse.ui.handlers">
+		<handler
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.editor.outline.quickoutline.ShowQuickOutlineActionHandler"
+			commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline">
+			<activeWhen>
+				<reference
+					definitionId="edu.dtu.s144874.thesis.ppid.Ppid.Editor.opened">
+				</reference>
+			</activeWhen>
+		</handler>
+	</extension>
+	<extension
+		point="org.eclipse.ui.commands">
+		<command
+			description="Open the quick outline."
+			id="org.eclipse.xtext.ui.editor.outline.QuickOutline"
+			name="Quick Outline">
+		</command>
+	</extension>
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution
+			locationURI="popup:#TextEditorContext?after=group.open">
+			<command commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline"
+				style="push"
+				tooltip="Open Quick Outline">
+				<visibleWhen checkEnabled="false">
+					<reference definitionId="edu.dtu.s144874.thesis.ppid.Ppid.Editor.opened"/>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+	<!-- quickfix marker resolution generator for edu.dtu.s144874.thesis.ppid.Ppid -->
+	<extension
+			point="org.eclipse.ui.ide.markerResolution">
+		<markerResolutionGenerator
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+			markerType="edu.dtu.s144874.thesis.ppid.ui.ppid.check.fast">
+			<attribute
+				name="FIXABLE_KEY"
+				value="true">
+			</attribute>
+		</markerResolutionGenerator>
+		<markerResolutionGenerator
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+			markerType="edu.dtu.s144874.thesis.ppid.ui.ppid.check.normal">
+			<attribute
+				name="FIXABLE_KEY"
+				value="true">
+			</attribute>
+		</markerResolutionGenerator>
+		<markerResolutionGenerator
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
+			markerType="edu.dtu.s144874.thesis.ppid.ui.ppid.check.expensive">
+			<attribute
+				name="FIXABLE_KEY"
+				value="true">
+			</attribute>
+		</markerResolutionGenerator>
+	</extension>
+	<!-- Rename Refactoring -->
+	<extension point="org.eclipse.ui.handlers">
+		<handler
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.DefaultRenameElementHandler"
+			commandId="org.eclipse.xtext.ui.refactoring.RenameElement">
+			<activeWhen>
+				<reference
+					definitionId="edu.dtu.s144874.thesis.ppid.Ppid.Editor.opened">
+				</reference>
+			</activeWhen>
+		</handler>
+	</extension>
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution
+			locationURI="popup:#TextEditorContext?after=group.edit">
+			<command commandId="org.eclipse.xtext.ui.refactoring.RenameElement"
+				style="push">
+				<visibleWhen checkEnabled="false">
+					<reference
+						definitionId="edu.dtu.s144874.thesis.ppid.Ppid.Editor.opened">
+					</reference>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+	<extension point="org.eclipse.ui.preferencePages">
+		<page
+			category="edu.dtu.s144874.thesis.ppid.Ppid"
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage"
+			id="edu.dtu.s144874.thesis.ppid.Ppid.refactoring"
+			name="Refactoring">
+			<keywordReference id="edu.dtu.s144874.thesis.ppid.ui.keyword_Ppid"/>
+		</page>
+	</extension>
+	<extension point="org.eclipse.compare.contentViewers">
+		<viewer id="edu.dtu.s144874.thesis.ppid.Ppid.compare.contentViewers"
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+			extensions="ppid">
+		</viewer>
+		<contentTypeBinding
+			contentTypeId="edu.dtu.s144874.thesis.ppid.Ppid.contenttype"
+			contentViewerId="edu.dtu.s144874.thesis.ppid.Ppid.compare.contentViewers" />
+	</extension>
+	<extension point="org.eclipse.compare.contentMergeViewers">
+		<viewer id="edu.dtu.s144874.thesis.ppid.Ppid.compare.contentMergeViewers"
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+			extensions="ppid" label="Ppid Compare">
+		</viewer>
+		<contentTypeBinding
+			contentTypeId="edu.dtu.s144874.thesis.ppid.Ppid.contenttype"
+			contentMergeViewerId="edu.dtu.s144874.thesis.ppid.Ppid.compare.contentMergeViewers" />
+	</extension>
+	<extension point="org.eclipse.ui.editors.documentProviders">
+		<provider id="edu.dtu.s144874.thesis.ppid.Ppid.editors.documentProviders"
+			class="edu.dtu.s144874.thesis.ppid.ui.PpidExecutableExtensionFactory:org.eclipse.xtext.ui.editor.model.XtextDocumentProvider"
+			extensions="ppid">
+		</provider>
+	</extension>
+	<extension point="org.eclipse.team.core.fileTypes">
+		<fileTypes
+			extension="ppid"
+			type="text">
+		</fileTypes>
+	</extension>
+</plugin>

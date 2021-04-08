@@ -1,0 +1,117 @@
+grammar edu.dtu.s144874.thesis.ppid.Ppid with org.eclipse.xtext.common.Terminals
+
+generate ppid "http://www.dtu.edu/s144874/thesis/ppid/Ppid"
+
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+//@source(type = 'mqtt', url = "tcp://127.0.0.1:1883", client.id = "siddhidsi", topic = "f/i/state/dsi", 
+//	@map(type = 'json'))
+//define stream SmartFactoryDsiStream (active int, code int, description string, station string, ts string);
+
+
+//@sink(type='log') 
+//define stream SiddhiProductionOut (processName string, activityName string, state string, resource string, ts string);
+
+Model:
+    entites+=Entity*
+    sources+=Source*
+    sinks+=Sink*
+    rules+=Rule*
+    start=StartRule?
+    end=EndRule?
+;
+
+
+
+Entity:
+    'entity' name=ID '{'
+    (properties+=Property)*
+    '}';
+    
+Source:
+	'source' name=ID topic=STRING entity=[Entity]
+;
+
+Sink:
+	'sink' name=ID entity=[Entity]
+;
+
+Type:
+    EntityReference | SimpleDataType | ArrayType;
+    
+ArrayType:
+   	'['type=Type']'
+   ;
+
+EntityReference:
+    entity=[Entity];
+
+SimpleDataType:
+    type=PrimitiveType;
+
+
+enum PrimitiveType:
+    number | string;
+
+Property:
+    name=ID ':' type=Type;
+    
+PropertyReference:
+   name=ID;
+    
+Update:
+	UpdateAbove | UpdateBelow | UpdateChange | UpdateIs | UpdateNot
+;
+
+OutputProperty:
+	name=ID ':' value=OutputValue 
+;
+
+OutputValue:
+	(valueInt=INT | valueString=STRING | valueRef=PropertyReference)
+;
+
+Output:
+	{Output} '{'
+	properties+=OutputProperty
+    (',' properties+=OutputProperty)*
+    '}'
+;
+
+SourceUpdate:
+	source=[Source] '.' property=[Property] '.' update=Update 
+;
+
+Rule:
+	updates+=SourceUpdate ('and' updates+=SourceUpdate)* ('=>' output=Output)? 'into' sink=[Sink]
+;
+
+StartRule:
+	'start' rule=Rule
+;
+
+EndRule:
+	'end' rule=Rule
+;
+
+UpdateAbove:
+	'above''('n=INT')'
+;
+
+UpdateBelow:
+	'below''('n=INT')'
+;
+
+UpdateChange:
+	'change''('n=INT',' m=INT')'
+;
+
+UpdateIs:
+	'is''('n=INT')'
+;
+
+UpdateNot:
+	'not''('n=INT')'
+;
+

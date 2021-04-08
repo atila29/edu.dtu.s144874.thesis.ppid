@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<units size='1'>
+  <unit id='edu.dtu.s144874.thesis.ppid' version='1.0.0.202103032242' generation='2'>
+    <update id='edu.dtu.s144874.thesis.ppid' range='[0.0.0,1.0.0.202103032242)' severity='0'/>
+    <properties size='5'>
+      <property name='org.eclipse.equinox.p2.name' value='edu.dtu.s144874.thesis.ppid'/>
+      <property name='org.eclipse.equinox.p2.provider' value='My Company'/>
+      <property name='maven-groupId' value='edu.dtu.s144874.thesis.ppid'/>
+      <property name='maven-artifactId' value='edu.dtu.s144874.thesis.ppid'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+    </properties>
+    <provides size='15'>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='edu.dtu.s144874.thesis.ppid' version='1.0.0.202103032242'/>
+      <provided namespace='osgi.bundle' name='edu.dtu.s144874.thesis.ppid' version='1.0.0.202103032242'/>
+      <provided namespace='java.package' name='edu.dtu.s144874.thesis.ppid.parser.antlr' version='0.0.0'/>
+      <provided namespace='java.package' name='edu.dtu.s144874.thesis.ppid.services' version='0.0.0'/>
+      <provided namespace='java.package' name='edu.dtu.s144874.thesis.ppid.parser.antlr.internal' version='0.0.0'/>
+      <provided namespace='java.package' name='edu.dtu.s144874.thesis.ppid.serializer' version='0.0.0'/>
+      <provided namespace='java.package' name='edu.dtu.s144874.thesis.ppid.ppid.impl' version='0.0.0'/>
+      <provided namespace='java.package' name='edu.dtu.s144874.thesis.ppid' version='0.0.0'/>
+      <provided namespace='java.package' name='edu.dtu.s144874.thesis.ppid.scoping' version='0.0.0'/>
+      <provided namespace='java.package' name='edu.dtu.s144874.thesis.ppid.ppid' version='0.0.0'/>
+      <provided namespace='java.package' name='edu.dtu.s144874.thesis.ppid.validation' version='0.0.0'/>
+      <provided namespace='java.package' name='edu.dtu.s144874.thesis.ppid.generator' version='0.0.0'/>
+      <provided namespace='java.package' name='edu.dtu.s144874.thesis.ppid.ppid.util' version='0.0.0'/>
+      <provided namespace='osgi.identity' name='edu.dtu.s144874.thesis.ppid' version='1.0.0.202103032242'>
+        <properties size='1'>
+          <property name='type' value='osgi.bundle'/>
+        </properties>
+      </provided>
+      <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+    </provides>
+    <requires size='10'>
+      <required namespace='osgi.bundle' name='org.eclipse.xtext' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.equinox.common' range='3.5.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='2.14.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.xtext.util' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.emf.common' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.antlr.runtime' range='[3.2.0,3.2.1)'/>
+      <required namespace='java.package' name='org.apache.log4j' range='0.0.0'/>
+      <requiredProperties namespace='osgi.ee' match='(&amp;(osgi.ee=JavaSE)(version=11))'/>
+    </requires>
+    <artifacts size='1'>
+      <artifact classifier='osgi.bundle' id='edu.dtu.s144874.thesis.ppid' version='1.0.0.202103032242'/>
+    </artifacts>
+    <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+    <touchpointData size='1'>
+      <instructions size='1'>
+        <instruction key='manifest'>
+          Bundle-SymbolicName: edu.dtu.s144874.thesis.ppid; singleton:=true&#xA;Bundle-Version: 1.0.0.202103032242&#xA;
+        </instruction>
+      </instructions>
+    </touchpointData>
+  </unit>
+</units>

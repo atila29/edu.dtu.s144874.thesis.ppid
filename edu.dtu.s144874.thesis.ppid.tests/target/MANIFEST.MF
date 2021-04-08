@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: edu.dtu.s144874.thesis.ppid.tests
+Bundle-ManifestVersion: 2
+Bundle-Name: edu.dtu.s144874.thesis.ppid.tests
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.202103032242
+Bundle-SymbolicName: edu.dtu.s144874.thesis.ppid.tests; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: edu.dtu.s144874.thesis.ppid,org.junit.jupiter.api;bundle
+ -version="[5.1.0,6.0.0)",org.eclipse.xtext.testing,org.eclipse.xtext.xb
+ ase.testing,org.eclipse.xtext.xbase.lib;bundle-version="2.14.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: edu.dtu.s144874.thesis.ppid.tests;x-internal=true
+
