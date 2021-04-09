@@ -1,12 +1,12 @@
---2021-04-08 10:38:08--  https://www.toptal.com/developers/gitignore/api/maven,eclipse,xtext
+--2021-04-09 02:43:37--  https://www.toptal.com/developers/gitignore/api/java,eclipse,maven,xtext
 Loaded CA certificate '/etc/ssl/certs/ca-certificates.crt'
-Resolving www.toptal.com (www.toptal.com)... 172.67.4.131, 104.22.42.181, 104.22.43.181, ...
-Connecting to www.toptal.com (www.toptal.com)|172.67.4.131|:443... connected.
+Resolving www.toptal.com (www.toptal.com)... 104.22.43.181, 172.67.4.131, 104.22.42.181, ...
+Connecting to www.toptal.com (www.toptal.com)|104.22.43.181|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: unspecified [text/plain]
-Saving to: ‘maven,eclipse,xtext’
+Saving to: ‘java,eclipse,maven,xtext’
 
-     0K .                                                      14.8M=0s
+     0K ..                                                     17.2M=0s
 
-2021-04-08 10:38:08 (14.8 MB/s) - ‘maven,eclipse,xtext’ saved [1765]
+2021-04-09 02:43:38 (17.2 MB/s) - ‘java,eclipse,maven,xtext’ saved [2072]
 

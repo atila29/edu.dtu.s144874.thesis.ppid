@@ -14,13 +14,12 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 //define stream SiddhiProductionOut (processName string, activityName string, state string, resource string, ts string);
 
 Model:
-    entites+=Entity*
-    sources+=Source*
-    sinks+=Sink*
-    rules+=ExtendedRule*
-    start=StartRule?
-    end=EndRule?
-    processes+=Process*
+//	start=StartRule?
+//    end=EndRule?
+    (entites+=Entity |
+    sources+=Source |
+    sinks+=Sink |
+    processes+=Process )*
 ;
 
 
@@ -80,30 +79,91 @@ Output:
     '}'
 ;
 
-SourceUpdate:
-	source=[Source] '.' property=[Property] '.' update=Update 
-;
+//SourceUpdate:
+//	source=[Source] '.' property=[Property] '.' update=Update 
+//;
+//
+//Rule:
+//	updates+=SourceUpdate ('and' updates+=SourceUpdate)*
+//;
 
-Rule:
-	updates+=SourceUpdate ('and' updates+=SourceUpdate)*
-;
-
-ExtendedRule:
-	'rule' name=ID rule=Rule ('=>' output=Output)? 'into' sink=[Sink]
-;
-
-Process:
-	'process' name=ID '{'
-	startRule=StartRule
-	connections+=(Connections)*
+Activity:
+	'activity' name=ID '{'
+		trigger+=Trigger
 	'}'
 ;
 
-Connections:
-	left=[ExtendedRule] connection=Connection right=[ExtendedRule]
+//ExtendedRule:
+//	'rule' name=ID rule=Rule ('=>' output=Output)? ('into' sink=[Sink])?
+//;
+
+Predicates:
+	predicates+=Predicate ('and' predicates+=Predicate)*
+;
+
+Predicate:
+	source=[Source] '.' property=[Property] '.' update=Update 
+;
+
+Trigger:
+	'on' predicates=Predicates ('=>' command=Command)?
+;
+
+Command:
+	SetVarCommand | OutputCommand
+;
+
+OutputCommand:
+	(output=Output)? 'into' sink=[Sink]
+;
+
+Expression:
+    TerminalExpression (Operator TerminalExpression)*;
+ 
+TerminalExpression:
+    '(' Expression ')' |
+    (INT | ID);
+
+Operator:
+	PlusOperator | MinusOperator | MultiplicationOperator | DivisionOperator
+;
+
+PlusOperator:
+	'+'
+;
+
+MinusOperator:
+	'-'
+;
+
+MultiplicationOperator:
+	'*'
+;
+
+DivisionOperator:
+	'/'
+;
+
+SetVarCommand:
+	'set' name=ID '=' exp=(STRING | Expression)
+;
+
+//ExtendedRule:
+//	'rule' name=ID rule=Rule ('=>' output=Output)? 'into' sink=[Sink]
+//;
+
+Process:
+	'process' name=ID '{'
+	activities+=(Activity)
+	connections+=(Connection)*
+	'}'
 ;
 
 Connection:
+	left=[Activity] connection=ConnectionType right=[Activity]
+;
+
+ConnectionType:
 	(OneWayConnection | BothWayConnection)
 ;
 
@@ -115,13 +175,13 @@ BothWayConnection:
 	'<->'
 ;
 
-StartRule:
-	'start' rule=Rule
-;
-
-EndRule:
-	'end' rule=Rule
-;
+//StartRule:
+//	'start' rule=Rule
+//;
+//
+//EndRule:
+//	'end' rule=Rule
+//;
 
 UpdateAbove:
 	'above''('n=INT')'
