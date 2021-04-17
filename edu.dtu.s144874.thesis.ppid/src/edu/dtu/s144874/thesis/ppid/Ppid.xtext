@@ -16,6 +16,8 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 Model:
 //	start=StartRule?
 //    end=EndRule?
+	globalsVars+=GlobalVar*
+
     (entites+=Entity |
     sources+=Source |
     sinks+=Sink |
@@ -57,20 +59,21 @@ enum PrimitiveType:
 Property:
     name=ID ':' type=Type;
     
-PropertyReference:
-   name=ID;
-    
+//PropertyReference:
+//   name=ID;
+//    
+
 Update:
 	UpdateAbove | UpdateBelow | UpdateChange | UpdateIs | UpdateNot
 ;
 
 OutputProperty:
-	name=ID ':' value=OutputValue 
+	name=ID ':'  exp=ExtendedExpression
 ;
-
-OutputValue:
-	(valueInt=INT | valueString=STRING | valueRef=PropertyReference)
-;
+//
+//OutputValue:
+//	(valueInt=INT | valueString=STRING | valueRef=PropertyReference)
+//;
 
 Output:
 	{Output} '{'
@@ -89,7 +92,7 @@ Output:
 
 Activity:
 	'activity' name=ID '{'
-		trigger+=Trigger
+		trigger+=Trigger*
 	'}'
 ;
 
@@ -117,36 +120,39 @@ OutputCommand:
 	(output=Output)? 'into' sink=[Sink]
 ;
 
-Expression:
-    TerminalExpression (Operator TerminalExpression)*;
- 
-TerminalExpression:
-    '(' Expression ')' |
-    (INT | ID);
-
-Operator:
-	PlusOperator | MinusOperator | MultiplicationOperator | DivisionOperator
+//Expression:
+//    TerminalExpression (Operator TerminalExpression)*;
+// 
+//TerminalExpression:
+//    '(' Expression ')' | 
+//    (INT);
+//    
+ExtendedExpression:
+	left=ExpressionPart right+=RightExpression*
 ;
 
-PlusOperator:
-	'+'
+RightExpression:
+	operator=Operator exp=ExpressionPart
 ;
 
-MinusOperator:
-	'-'
+ExpressionPart:
+	 ref=StatefulPropertyReference | value=INT | stringValue=STRING
 ;
 
-MultiplicationOperator:
-	'*'
+StatefulPropertyReference:
+	(source=[Source]'.' property=[Property]) | (('global.' source=[GlobalVar]) ('.' property=[Property])?)
 ;
 
-DivisionOperator:
-	'/'
+
+GlobalVar:
+	'let' name=ID ':' type=Type ('=' assignment=(ExtendedExpression | Output ))?
 ;
 
 SetVarCommand:
-	'set' name=ID '=' exp=(STRING | Expression)
+	'set' name=[GlobalVar] (':' )? '=' assignment=(ExtendedExpression | Output)
 ;
+
+
 
 //ExtendedRule:
 //	'rule' name=ID rule=Rule ('=>' output=Output)? 'into' sink=[Sink]
@@ -154,7 +160,7 @@ SetVarCommand:
 
 Process:
 	'process' name=ID '{'
-	activities+=(Activity)
+	activities+=(Activity)*
 	connections+=(Connection)*
 	'}'
 ;
@@ -163,17 +169,7 @@ Connection:
 	left=[Activity] connection=ConnectionType right=[Activity]
 ;
 
-ConnectionType:
-	(OneWayConnection | BothWayConnection)
-;
 
-OneWayConnection:
-	'->'
-;
-
-BothWayConnection:
-	'<->'
-;
 
 //StartRule:
 //	'start' rule=Rule
@@ -203,3 +199,34 @@ UpdateNot:
 	'not''('n=INT')'
 ;
 
+ConnectionType:
+	(OneWayConnection | BothWayConnection)
+;
+
+OneWayConnection:
+	'->'
+;
+
+BothWayConnection:
+	'<->'
+;
+
+Operator:
+	PlusOperator | MinusOperator | MultiplicationOperator | DivisionOperator
+;
+
+PlusOperator:
+	'+'
+;
+
+MinusOperator:
+	'-'
+;
+
+MultiplicationOperator:
+	'*'
+;
+
+DivisionOperator:
+	'/'
+;

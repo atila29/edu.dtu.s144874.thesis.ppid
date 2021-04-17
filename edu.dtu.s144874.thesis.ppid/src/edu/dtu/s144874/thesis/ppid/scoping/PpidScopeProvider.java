@@ -3,17 +3,40 @@
  */
 package edu.dtu.s144874.thesis.ppid.scoping;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.scoping.IScope;
+import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.scoping.Scopes;
+import org.eclipse.xtext.scoping.impl.DefaultGlobalScopeProvider;
+import org.eclipse.xtext.xbase.scoping.XbaseImportedNamespaceScopeProvider;
 
+import com.google.common.collect.Iterables;
+
+import edu.dtu.s144874.thesis.ppid.ppid.EntityReference;
+import edu.dtu.s144874.thesis.ppid.ppid.GlobalVar;
+import edu.dtu.s144874.thesis.ppid.ppid.Model;
+import edu.dtu.s144874.thesis.ppid.ppid.Output;
+import edu.dtu.s144874.thesis.ppid.ppid.OutputProperty;
 import edu.dtu.s144874.thesis.ppid.ppid.PpidPackage;
-import edu.dtu.s144874.thesis.ppid.ppid.SourceUpdate;
+import edu.dtu.s144874.thesis.ppid.ppid.Predicate;
+import edu.dtu.s144874.thesis.ppid.ppid.PrimitiveType;
+import edu.dtu.s144874.thesis.ppid.ppid.Property;
+import edu.dtu.s144874.thesis.ppid.ppid.SimpleDataType;
+import edu.dtu.s144874.thesis.ppid.ppid.Source;
+import edu.dtu.s144874.thesis.ppid.ppid.StatefulPropertyReference;
+import edu.dtu.s144874.thesis.ppid.ppid.Type;
 
 /**
  * This class contains custom scoping description.
@@ -26,14 +49,104 @@ public class PpidScopeProvider extends AbstractPpidScopeProvider {
     @Override
     public IScope getScope(EObject context, EReference reference) {
         // We want to define the Scope for the Element's superElement cross-reference
-		if (context instanceof SourceUpdate && 
-				reference == PpidPackage.Literals.SOURCE_UPDATE__PROPERTY) { 
-			return scope_SourceUpdate_op((SourceUpdate) context, reference);
+		if (context instanceof Predicate && 
+				reference == PpidPackage.Literals.PREDICATE__PROPERTY) {
+			return Scopes.scopeFor(((Predicate) context).getSource().getEntity().getProperties());
         }
+		
+		if (context instanceof StatefulPropertyReference && 
+				reference == PpidPackage.Literals.STATEFUL_PROPERTY_REFERENCE__PROPERTY) {
+			
+			
+			EObject refSource = ((StatefulPropertyReference)context).getSource();
+			
+			if(refSource instanceof Source) {
+				Source source = (Source)refSource;
+				
+				return Scopes.scopeFor(source.getEntity().getProperties());
+				
+			} else if(refSource instanceof GlobalVar) {
+				GlobalVar source = (GlobalVar)refSource;
+				
+				if(source.getType() instanceof SimpleDataType) {
+//					return Scopes.scopeFor(source.getType());
+				} else if(source.getType() instanceof EntityReference) {
+					EntityReference ref = (EntityReference) source.getType();
+					return Scopes.scopeFor(ref.getEntity().getProperties());
+				}
+			}
+			
+			if (context instanceof OutputProperty && 
+					reference == PpidPackage.Literals.OUTPUT_PROPERTY__EXP) {
+				
+			}
+			
+			
+//			Iterable<IEObjectDescription> iterable = ;
+			
+//			Iterable<GlobalVar> globalVars = Iterables.filter(iterable, GlobalVar.class);
+			
+		
+			
+			
+//			Optional<EList<Property>> sourceProperties = globalScope(context).getSources().stream()
+//				.filter(source -> source.getName().equals(((StatefulPropertyReference) context).getSource()))
+//				.map(source -> source.getEntity().getProperties())
+//				.reduce((result, current) -> {
+//					result.addAll(current);
+//					return result;
+//				});
+//			
+//			Optional<EList<Property>> globalVarProperties = globalScope(context).getGlobalsVars().stream()
+//				.filter(v -> v.getName().equals(((StatefulPropertyReference) context).getSource()))
+//				.map(v -> v.getType())
+//				.filter(v -> v instanceof EntityReference)
+//				.map(v -> (EntityReference) v)
+//				.map(v -> v.getEntity().getProperties())
+//				.reduce((result, current) -> {
+//					result.addAll(current);
+//					return result;
+//				});
+//			
+//			
+//			List<Property> collection = new ArrayList<Property>();
+//			
+//			
+//			if(sourceProperties.isPresent()) {
+//				collection.addAll(sourceProperties.get());
+//			}
+//			if(globalVarProperties.isPresent()) {
+//				collection.addAll(globalVarProperties.get());
+//			}
+//			
+//			
+//			return Scopes.scopeFor(collection);
+			// fix
+//			return Scopes.scopeFor(((StatefulPropertyReference) context).getSource().getEntity().getProperties());
+        }
+    	
         return super.getScope(context, reference);
     }
-	
-	IScope scope_SourceUpdate_op(SourceUpdate sourceUpdate, EReference ref) {
-        return Scopes.scopeFor(sourceUpdate.getSource().getEntity().getProperties());
+    
+    
+    public static <T> Iterable<T> toIterable(final Iterator<T> iterator) {
+		if (iterator == null)
+			throw new NullPointerException("iterator");
+		return new Iterable<T>() {
+			@Override
+			public Iterator<T> iterator() {
+				return iterator;
+			}
+		};
+	}
+    
+    public static Model globalScope(EObject context) {
+    	EObject result = context;
+    	
+    	while(!(result instanceof Model)) {
+    		result = result.eContainer();
+    	}
+    	return (Model) result;
     }
+    
 }
