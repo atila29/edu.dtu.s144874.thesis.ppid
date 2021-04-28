@@ -49,9 +49,23 @@ import edu.dtu.s144874.thesis.ppid.ppid.ExtendedExpression
 import edu.dtu.s144874.thesis.ppid.ppid.RightExpression
 import edu.dtu.s144874.thesis.ppid.ppid.ExpressionPart
 import edu.dtu.s144874.thesis.ppid.ppid.StatefulPropertyReference
+import edu.dtu.s144874.thesis.ppid.ppid.Property
 import java.util.List
 import java.util.Map
 import edu.dtu.s144874.thesis.ppid.ppid.Output
+import com.google.common.collect.Iterables
+import java.util.stream.IntStream
+import java.util.Optional
+import edu.dtu.s144874.thesis.ppid.generator.model.IntermediateStreamTree
+import edu.dtu.s144874.thesis.ppid.generator.model.IntermediateStreamLeaf
+import org.eclipse.xtext.xtext.CurrentTypeFinder.Implementation
+import org.eclipse.xtext.util.Tuples
+import org.eclipse.xtext.util.Pair
+import java.util.ArrayList
+import edu.dtu.s144874.thesis.ppid.generator.model.GroupingInformation
+import edu.dtu.s144874.thesis.ppid.generator.model.LeafType
+import org.eclipse.emf.ecore.EObject
+import java.util.Collections
 
 /**
  * Generates code from your model files on save.
@@ -92,11 +106,44 @@ class PpidGenerator extends AbstractGenerator {
 					val trigger = it
 					it.predicates.hashCode
 					
+					// Map after
+//					trigger.predicates.predicates.map[Tuples.create(it.source.name, it.property)]
+					
+					val groupedInputs = trigger.command.compileGroupings
+					.groupBy[it.first]
+					.mapValues[it.map[it.second]]
+					
+					// input is of form EObject, List<Pair<Property, Property>>
+					
+					
+					val currentNode = new IntermediateStreamTree
+					
+					currentNode.addGroupedInputs(groupedInputs)
+					
+					trigger.predicates.predicates
+//					.filter[!groupedInputs.containsKey(it.source)]
+					.groupBy[it.source]
+					.forEach[s, predicates|currentNode.addPredicateSource(s, predicates)]
+					
+//					trigger.predicates.predicates
+//					.filter[groupedInputs.containsKey(it.source)]
+//					.groupBy[it.source]
+//					.forEach[s, predicates|currentNode.addPredicateSource(s, predicates)]
+
+
+//					groupedInputs.forEach[name, props| currentNode.add(name, props)]
+					
+					
+					val intermediateStreams =  currentNode.compileIntermediateStreams
+					
+					
 					val predicates = it.predicates.predicates
 					
 					val indexedPredicates  = predicates.map[new IndexedPredicate(predicates.indexOf(it), it)]
 					
-					val eventAttributes = trigger.command.compileEventAttributes(indexedPredicates)
+//					val eventAttributes = trigger.command.compileEventAttributes(indexedPredicates)
+					
+					val eventAttributes = "NOT WORKING!!!" // NOT SURE WHAT TO DO HERE, will make new final...
 					
 					// create globalVarsReference
 					val accessedGlobalVars = command.eAllContents.toIterable
@@ -107,7 +154,21 @@ class PpidGenerator extends AbstractGenerator {
 					.join(' ')
 					
 					
+					
+					
+					
 					return '''
+					
+					«intermediateStreams»
+					
+					
+					from every «currentNode.finalInputStream»
+					select '«process.name»' as processName, '«activity.name»' as activityName«currentNode.compileSelect»
+					having «currentNode.compileHaving»
+					insert into «trigger.command.compileTriggerOutput»;
+					
+					DEPRECATED
+					
 «««					from every «indexedPredicates.map[it.compileFrom].join(', ')» «propertyReferences.compileJoinTables»
 					from every «indexedPredicates.map[it.compileFrom].join(', ')» «accessedGlobalVars»
 					select '«process.name»' as processName, '«activity.name»' as activityName«eventAttributes»
@@ -153,9 +214,41 @@ class PpidGenerator extends AbstractGenerator {
 
 	}
 	
-	def compileJoinTables(Map<Source, List<StatefulPropertyReference>> map) {
-		''''''
+	def compileGroupings(Command command) {
+		if(command instanceof SetVarCommand) {
+			val assignment = command.assignment
+			if(assignment instanceof ExtendedExpression) {
+				// just prop = value -> cut corners
+				
+				return assignment.compileExpressionGroupings(null)
+			} else if(assignment instanceof Output) {
+				return assignment.properties.map[it.exp.compileExpressionGroupings(it.property)].flatten
+			}
+		} else if(command instanceof OutputCommand) {
+			return command.output.properties.map[it.exp.compileExpressionGroupings(it.property)].flatten
+		}
 	}
+	
+	def compileGroupings(ExpressionPart exp, Property mappedProp) {
+		if(exp.ref !== null) {
+			val source = exp.ref.source
+			return Tuples.create(source, Tuples.create(exp.ref.property, mappedProp))
+		}
+		return null
+	}
+	
+	def compileExpressionGroupings(ExtendedExpression expression, Property mappedProp) {
+		val result = new ArrayList<Pair<EObject, Pair<Property, Property>>>()
+		if(expression.right !== null){
+			result.addAll(expression.right.map[it.exp.compileGroupings(mappedProp)])		
+		}
+		result.add(expression.left.compileGroupings(mappedProp))
+		result.filter[it !== null]
+	}
+	
+//	def compileJoinTables(Map<Source, List<StatefulPropertyReference>> map) {
+//		'''compileJoinTables'''
+//	}
 	
 	def compileStreamProperties(Entity entity) {
 		if(entity.properties.empty) {
@@ -180,7 +273,7 @@ class PpidGenerator extends AbstractGenerator {
 				return assignment.compileExpression(indexedPredicates)
 				
 			} else if(assignment instanceof Output) {
-				val props = assignment.properties.map['''«it.exp.compileExpression(indexedPredicates)» as «it.name»''']
+				val props = assignment.properties.map['''«it.exp.compileExpression(indexedPredicates)» as «it.property.name»''']
 				if(props.size === 0){
 					return ''''''
 				}
@@ -189,7 +282,7 @@ class PpidGenerator extends AbstractGenerator {
 			
 			
 		} else if(command instanceof OutputCommand){
-			val props = command.output.properties.map['''«it.exp.compileExpression(indexedPredicates)» as «it.name»''']
+			val props = command.output.properties.map['''«it.exp.compileExpression(indexedPredicates)» as «it.property.name»''']
 			if(props.size === 0){
 				return ''''''
 			}
@@ -280,7 +373,7 @@ class PpidGenerator extends AbstractGenerator {
 		if(command instanceof OutputCommand) {
 			'''«command.sink.name»'''
 		} else if(command instanceof SetVarCommand) {
-			'''«command.name.name»'''
+			'''«command.id.name»'''
 		}
 	}
 	

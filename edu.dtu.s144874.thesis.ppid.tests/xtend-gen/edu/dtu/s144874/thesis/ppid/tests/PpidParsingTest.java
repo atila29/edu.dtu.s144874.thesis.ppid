@@ -95,6 +95,9 @@ public class PpidParsingTest {
       String _join = IterableExtensions.join(errors, ", ");
       _builder_1.append(_join);
       Assertions.assertTrue(_isEmpty, _builder_1.toString());
+      StringConcatenation _builder_2 = new StringConcatenation();
+      _builder_2.append("expected");
+      Assertions.assertEquals(_builder_2, result);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

@@ -68,7 +68,7 @@ Update:
 ;
 
 OutputProperty:
-	name=ID ':'  exp=ExtendedExpression
+	property=[Property] ':'  exp=ExtendedExpression
 ;
 //
 //OutputValue:
@@ -145,11 +145,11 @@ StatefulPropertyReference:
 
 
 GlobalVar:
-	'let' name=ID ':' type=Type ('=' assignment=(ExtendedExpression | Output ))?
+	'let' name=ID ':' type=Type
 ;
 
 SetVarCommand:
-	'set' name=[GlobalVar] (':' )? '=' assignment=(ExtendedExpression | Output)
+	'set' id=[GlobalVar] '=' assignment=(ExtendedExpression | Output)
 ;
 
 

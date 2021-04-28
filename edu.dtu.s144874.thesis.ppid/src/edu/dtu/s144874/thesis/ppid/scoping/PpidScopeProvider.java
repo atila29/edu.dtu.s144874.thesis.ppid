@@ -24,15 +24,18 @@ import org.eclipse.xtext.xbase.scoping.XbaseImportedNamespaceScopeProvider;
 
 import com.google.common.collect.Iterables;
 
+import edu.dtu.s144874.thesis.ppid.ppid.Command;
 import edu.dtu.s144874.thesis.ppid.ppid.EntityReference;
 import edu.dtu.s144874.thesis.ppid.ppid.GlobalVar;
 import edu.dtu.s144874.thesis.ppid.ppid.Model;
 import edu.dtu.s144874.thesis.ppid.ppid.Output;
+import edu.dtu.s144874.thesis.ppid.ppid.OutputCommand;
 import edu.dtu.s144874.thesis.ppid.ppid.OutputProperty;
 import edu.dtu.s144874.thesis.ppid.ppid.PpidPackage;
 import edu.dtu.s144874.thesis.ppid.ppid.Predicate;
 import edu.dtu.s144874.thesis.ppid.ppid.PrimitiveType;
 import edu.dtu.s144874.thesis.ppid.ppid.Property;
+import edu.dtu.s144874.thesis.ppid.ppid.SetVarCommand;
 import edu.dtu.s144874.thesis.ppid.ppid.SimpleDataType;
 import edu.dtu.s144874.thesis.ppid.ppid.Source;
 import edu.dtu.s144874.thesis.ppid.ppid.StatefulPropertyReference;
@@ -76,54 +79,27 @@ public class PpidScopeProvider extends AbstractPpidScopeProvider {
 				}
 			}
 			
-			if (context instanceof OutputProperty && 
-					reference == PpidPackage.Literals.OUTPUT_PROPERTY__EXP) {
-				
-			}
-			
-			
-//			Iterable<IEObjectDescription> iterable = ;
-			
-//			Iterable<GlobalVar> globalVars = Iterables.filter(iterable, GlobalVar.class);
-			
+		}
 		
+		if (context instanceof OutputProperty && 
+				reference == PpidPackage.Literals.OUTPUT_PROPERTY__PROPERTY) {
+			OutputProperty outputProp = (OutputProperty)context;
 			
+			Command command = (Command) outputProp.eContainer().eContainer();
 			
-//			Optional<EList<Property>> sourceProperties = globalScope(context).getSources().stream()
-//				.filter(source -> source.getName().equals(((StatefulPropertyReference) context).getSource()))
-//				.map(source -> source.getEntity().getProperties())
-//				.reduce((result, current) -> {
-//					result.addAll(current);
-//					return result;
-//				});
-//			
-//			Optional<EList<Property>> globalVarProperties = globalScope(context).getGlobalsVars().stream()
-//				.filter(v -> v.getName().equals(((StatefulPropertyReference) context).getSource()))
-//				.map(v -> v.getType())
-//				.filter(v -> v instanceof EntityReference)
-//				.map(v -> (EntityReference) v)
-//				.map(v -> v.getEntity().getProperties())
-//				.reduce((result, current) -> {
-//					result.addAll(current);
-//					return result;
-//				});
-//			
-//			
-//			List<Property> collection = new ArrayList<Property>();
-//			
-//			
-//			if(sourceProperties.isPresent()) {
-//				collection.addAll(sourceProperties.get());
-//			}
-//			if(globalVarProperties.isPresent()) {
-//				collection.addAll(globalVarProperties.get());
-//			}
-//			
-//			
-//			return Scopes.scopeFor(collection);
-			// fix
-//			return Scopes.scopeFor(((StatefulPropertyReference) context).getSource().getEntity().getProperties());
-        }
+			if(command instanceof SetVarCommand) {
+				Type type = ((SetVarCommand) command).getId().getType();
+				if(type instanceof SimpleDataType) {
+					// what to do??
+				} else if(type instanceof EntityReference) {
+					EList<Property> properties = ((EntityReference) type).getEntity().getProperties();
+					return Scopes.scopeFor(properties);
+				}
+			} else if(command instanceof OutputCommand) {
+				return Scopes.scopeFor(((OutputCommand) command).getSink().getEntity().getProperties());
+			}
+			System.out.println();
+		}
     	
         return super.getScope(context, reference);
     }
