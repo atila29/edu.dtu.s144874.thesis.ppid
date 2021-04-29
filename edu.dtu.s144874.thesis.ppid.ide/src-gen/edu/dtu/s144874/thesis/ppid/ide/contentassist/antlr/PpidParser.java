@@ -31,17 +31,20 @@ public class PpidParser extends AbstractContentAssistParser {
 		}
 		
 		private static void init(ImmutableMap.Builder<AbstractElement, String> builder, PpidGrammarAccess grammarAccess) {
-			builder.put(grammarAccess.getModelAccess().getAlternatives_1(), "rule__Model__Alternatives_1");
+			builder.put(grammarAccess.getModelAccess().getAlternatives_2(), "rule__Model__Alternatives_2");
 			builder.put(grammarAccess.getTypeAccess().getAlternatives(), "rule__Type__Alternatives");
 			builder.put(grammarAccess.getUpdateAccess().getAlternatives(), "rule__Update__Alternatives");
 			builder.put(grammarAccess.getCommandAccess().getAlternatives(), "rule__Command__Alternatives");
 			builder.put(grammarAccess.getExpressionPartAccess().getAlternatives(), "rule__ExpressionPart__Alternatives");
 			builder.put(grammarAccess.getStatefulPropertyReferenceAccess().getAlternatives(), "rule__StatefulPropertyReference__Alternatives");
 			builder.put(grammarAccess.getSetVarCommandAccess().getAssignmentAlternatives_3_0(), "rule__SetVarCommand__AssignmentAlternatives_3_0");
+			builder.put(grammarAccess.getUpdateIsAccess().getAlternatives_2(), "rule__UpdateIs__Alternatives_2");
+			builder.put(grammarAccess.getUpdateNotAccess().getAlternatives_2(), "rule__UpdateNot__Alternatives_2");
 			builder.put(grammarAccess.getConnectionTypeAccess().getAlternatives(), "rule__ConnectionType__Alternatives");
 			builder.put(grammarAccess.getOperatorAccess().getAlternatives(), "rule__Operator__Alternatives");
 			builder.put(grammarAccess.getPrimitiveTypeAccess().getAlternatives(), "rule__PrimitiveType__Alternatives");
 			builder.put(grammarAccess.getModelAccess().getGroup(), "rule__Model__Group__0");
+			builder.put(grammarAccess.getRawQueryAccess().getGroup(), "rule__RawQuery__Group__0");
 			builder.put(grammarAccess.getEntityAccess().getGroup(), "rule__Entity__Group__0");
 			builder.put(grammarAccess.getSourceAccess().getGroup(), "rule__Source__Group__0");
 			builder.put(grammarAccess.getSinkAccess().getGroup(), "rule__Sink__Group__0");
@@ -72,11 +75,13 @@ public class PpidParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getUpdateChangeAccess().getGroup(), "rule__UpdateChange__Group__0");
 			builder.put(grammarAccess.getUpdateIsAccess().getGroup(), "rule__UpdateIs__Group__0");
 			builder.put(grammarAccess.getUpdateNotAccess().getGroup(), "rule__UpdateNot__Group__0");
-			builder.put(grammarAccess.getModelAccess().getGlobalsVarsAssignment_0(), "rule__Model__GlobalsVarsAssignment_0");
-			builder.put(grammarAccess.getModelAccess().getEntitesAssignment_1_0(), "rule__Model__EntitesAssignment_1_0");
-			builder.put(grammarAccess.getModelAccess().getSourcesAssignment_1_1(), "rule__Model__SourcesAssignment_1_1");
-			builder.put(grammarAccess.getModelAccess().getSinksAssignment_1_2(), "rule__Model__SinksAssignment_1_2");
-			builder.put(grammarAccess.getModelAccess().getProcessesAssignment_1_3(), "rule__Model__ProcessesAssignment_1_3");
+			builder.put(grammarAccess.getModelAccess().getGlobalsVarsAssignment_1(), "rule__Model__GlobalsVarsAssignment_1");
+			builder.put(grammarAccess.getModelAccess().getEntitesAssignment_2_0(), "rule__Model__EntitesAssignment_2_0");
+			builder.put(grammarAccess.getModelAccess().getSourcesAssignment_2_1(), "rule__Model__SourcesAssignment_2_1");
+			builder.put(grammarAccess.getModelAccess().getSinksAssignment_2_2(), "rule__Model__SinksAssignment_2_2");
+			builder.put(grammarAccess.getModelAccess().getProcessesAssignment_2_3(), "rule__Model__ProcessesAssignment_2_3");
+			builder.put(grammarAccess.getModelAccess().getRawQueriesAssignment_2_4(), "rule__Model__RawQueriesAssignment_2_4");
+			builder.put(grammarAccess.getRawQueryAccess().getTextAssignment_1(), "rule__RawQuery__TextAssignment_1");
 			builder.put(grammarAccess.getEntityAccess().getNameAssignment_1(), "rule__Entity__NameAssignment_1");
 			builder.put(grammarAccess.getEntityAccess().getPropertiesAssignment_3(), "rule__Entity__PropertiesAssignment_3");
 			builder.put(grammarAccess.getSourceAccess().getNameAssignment_1(), "rule__Source__NameAssignment_1");
@@ -129,8 +134,10 @@ public class PpidParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getUpdateBelowAccess().getNAssignment_2(), "rule__UpdateBelow__NAssignment_2");
 			builder.put(grammarAccess.getUpdateChangeAccess().getNAssignment_2(), "rule__UpdateChange__NAssignment_2");
 			builder.put(grammarAccess.getUpdateChangeAccess().getMAssignment_4(), "rule__UpdateChange__MAssignment_4");
-			builder.put(grammarAccess.getUpdateIsAccess().getNAssignment_2(), "rule__UpdateIs__NAssignment_2");
-			builder.put(grammarAccess.getUpdateNotAccess().getNAssignment_2(), "rule__UpdateNot__NAssignment_2");
+			builder.put(grammarAccess.getUpdateIsAccess().getNAssignment_2_0(), "rule__UpdateIs__NAssignment_2_0");
+			builder.put(grammarAccess.getUpdateIsAccess().getSAssignment_2_1(), "rule__UpdateIs__SAssignment_2_1");
+			builder.put(grammarAccess.getUpdateNotAccess().getNAssignment_2_0(), "rule__UpdateNot__NAssignment_2_0");
+			builder.put(grammarAccess.getUpdateNotAccess().getSAssignment_2_1(), "rule__UpdateNot__SAssignment_2_1");
 		}
 	}
 	

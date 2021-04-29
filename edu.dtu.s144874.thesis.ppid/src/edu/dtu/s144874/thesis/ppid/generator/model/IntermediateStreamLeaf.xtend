@@ -30,7 +30,8 @@ class IntermediateStreamLeaf {
 		if(source instanceof GlobalVar) {
 			return this.name
 		} else if(source instanceof Source) {
-			return '''«this.name»#window'''
+//			return '''«this.name»#window'''
+			return '''«this.name»'''
 		}
 	}
 	

@@ -66,6 +66,7 @@ import edu.dtu.s144874.thesis.ppid.generator.model.GroupingInformation
 import edu.dtu.s144874.thesis.ppid.generator.model.LeafType
 import org.eclipse.emf.ecore.EObject
 import java.util.Collections
+import edu.dtu.s144874.thesis.ppid.ppid.RawQuery
 
 /**
  * Generates code from your model files on save.
@@ -166,14 +167,14 @@ class PpidGenerator extends AbstractGenerator {
 					select '«process.name»' as processName, '«activity.name»' as activityName«currentNode.compileSelect»
 					having «currentNode.compileHaving»
 					insert into «trigger.command.compileTriggerOutput»;
-					
-					DEPRECATED
-					
-«««					from every «indexedPredicates.map[it.compileFrom].join(', ')» «propertyReferences.compileJoinTables»
-					from every «indexedPredicates.map[it.compileFrom].join(', ')» «accessedGlobalVars»
-					select '«process.name»' as processName, '«activity.name»' as activityName«eventAttributes»
-					«IF !indexedPredicates.empty && !indexedPredicates.exists[it.predicate.update instanceof UpdateChange]»having «indexedPredicates.map[it.compileHaving].join(' and ')»«ENDIF»
-					insert into «trigger.command.compileTriggerOutput»;
+«««					
+«««					DEPRECATED
+«««					
+««««««					from every «indexedPredicates.map[it.compileFrom].join(', ')» «propertyReferences.compileJoinTables»
+«««					from every «indexedPredicates.map[it.compileFrom].join(', ')» «accessedGlobalVars»
+«««					select '«process.name»' as processName, '«activity.name»' as activityName«eventAttributes»
+«««					«IF !indexedPredicates.empty && !indexedPredicates.exists[it.predicate.update instanceof UpdateChange]»having «indexedPredicates.map[it.compileHaving].join(' and ')»«ENDIF»
+«««					insert into «trigger.command.compileTriggerOutput»;
 					'''
 					
 					
@@ -188,9 +189,10 @@ class PpidGenerator extends AbstractGenerator {
 			'''
 		].join('\n')
 
+		val rawQueries = resource.allContents.toIterable.filter(RawQuery).map[it.text].join('\n')
 
 
-		fsa.generateFile('app.siddhi', '''
+		fsa.generateFile('application.siddhi', '''
 			«resource.allContents.toIterable.filter(Source).map[
 				'''
 				@source(type = 'mqtt', url = "tcp://127.0.0.1:1883", client.id = "siddhidsi", topic = "«it.topic»", 
@@ -205,6 +207,8 @@ class PpidGenerator extends AbstractGenerator {
 			«globalVars»
 
 			«processes»
+			
+			«rawQueries»
 			
 «««			@sink(type = 'mqtt', url = "tcp://127.0.0.1:1883", client.id = "siddhipub", topic = "log/$processName/$caseId/$activityName",  quality.of.service= '0', @map(type='json'))
 «««			define stream eventlogOut (processName string, caseId string, activityName string, ts string);

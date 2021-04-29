@@ -83,14 +83,14 @@ class PredicateStreamLeaf extends IntermediateStreamLeaf {
 	//			((e«index»_1.«predicate.property.name»==«update.n») and (e«index»_2.«predicate.property.name»==«update.m»))'''
 				''''''
 			} else if (update instanceof UpdateIs) {
-				'''(«it.property.compileAsPropertyName» == «update.n»)'''
+				'''(«it.property.compileAsPropertyName» == «IF update.s !== null»'«update.s»'«ELSE»«update.n»«ENDIF»)'''
 			} else if (update instanceof UpdateNot) {
-				'''(«it.property.compileAsPropertyName» != «update.n»)'''
+				'''(«it.property.compileAsPropertyName» !=  «IF update.s !== null»'«update.s»'«ELSE»«update.n»«ENDIF»)'''
 			} else {
 				'''«update.class»'''
 			}
 				
-		].join(' ')
+		].join(' and ')
 		
 	}
 	
