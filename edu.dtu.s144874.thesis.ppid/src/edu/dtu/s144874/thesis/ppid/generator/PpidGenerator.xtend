@@ -67,6 +67,7 @@ import edu.dtu.s144874.thesis.ppid.generator.model.LeafType
 import org.eclipse.emf.ecore.EObject
 import java.util.Collections
 import edu.dtu.s144874.thesis.ppid.ppid.RawQuery
+import edu.dtu.s144874.thesis.ppid.ppid.RawSource
 
 /**
  * Generates code from your model files on save.
@@ -155,7 +156,7 @@ class PpidGenerator extends AbstractGenerator {
 					.join(' ')
 					
 					
-					
+					val having = currentNode.compileHaving
 					
 					
 					return '''
@@ -163,9 +164,9 @@ class PpidGenerator extends AbstractGenerator {
 					«intermediateStreams»
 					
 					
-					from every «currentNode.finalInputStream»
+					from «currentNode.finalInputStream»
 					select '«process.name»' as processName, '«activity.name»' as activityName«currentNode.compileSelect»
-					having «currentNode.compileHaving»
+					«IF !having.empty»having «having»«ENDIF»
 					insert into «trigger.command.compileTriggerOutput»;
 «««					
 «««					DEPRECATED
@@ -190,6 +191,8 @@ class PpidGenerator extends AbstractGenerator {
 		].join('\n')
 
 		val rawQueries = resource.allContents.toIterable.filter(RawQuery).map[it.text].join('\n')
+		
+		val rawSources = resource.allContents.toIterable.filter(RawSource).map[it.input].join('\n')
 
 
 		fsa.generateFile('application.siddhi', '''
@@ -209,6 +212,8 @@ class PpidGenerator extends AbstractGenerator {
 			«processes»
 			
 			«rawQueries»
+			
+			«rawSources»
 			
 «««			@sink(type = 'mqtt', url = "tcp://127.0.0.1:1883", client.id = "siddhipub", topic = "log/$processName/$caseId/$activityName",  quality.of.service= '0', @map(type='json'))
 «««			define stream eventlogOut (processName string, caseId string, activityName string, ts string);

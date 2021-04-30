@@ -23,7 +23,8 @@ Model:
     sources+=Source |
     sinks+=Sink |
     processes+=Process |
-    rawQueries+=RawQuery)*
+    rawQueries+=RawQuery |
+    rawSources+=RawSource)*
 ;
 
 RawQuery:
@@ -37,11 +38,15 @@ Entity:
     '}';
     
 Source:
-	'source' name=ID topic=STRING entity=[Entity]
+	'source' name=ID topic=STRING ':' entity=[Entity]
+;
+
+RawSource:
+	'rawsource' name=ID input=STRING ':' entity=[Entity]
 ;
 
 Sink:
-	'sink' name=ID entity=[Entity]
+	'sink' name=ID ':' entity=[Entity]
 ;
 
 Type:

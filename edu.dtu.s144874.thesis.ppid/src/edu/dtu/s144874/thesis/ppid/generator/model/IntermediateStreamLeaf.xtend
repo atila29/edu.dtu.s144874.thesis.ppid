@@ -1,6 +1,5 @@
 package edu.dtu.s144874.thesis.ppid.generator.model
 
-
 import java.util.Optional
 import java.util.List
 import org.eclipse.emf.ecore.EObject
@@ -30,8 +29,8 @@ class IntermediateStreamLeaf {
 		if(source instanceof GlobalVar) {
 			return this.name
 		} else if(source instanceof Source) {
-//			return '''«this.name»#window'''
-			return '''«this.name»'''
+			return '''«this.name»#window'''
+//			return '''«this.name»'''
 		}
 	}
 	

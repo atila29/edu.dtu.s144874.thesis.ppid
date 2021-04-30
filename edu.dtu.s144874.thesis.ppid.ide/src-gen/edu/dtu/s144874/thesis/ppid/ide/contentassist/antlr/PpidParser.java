@@ -47,6 +47,7 @@ public class PpidParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getRawQueryAccess().getGroup(), "rule__RawQuery__Group__0");
 			builder.put(grammarAccess.getEntityAccess().getGroup(), "rule__Entity__Group__0");
 			builder.put(grammarAccess.getSourceAccess().getGroup(), "rule__Source__Group__0");
+			builder.put(grammarAccess.getRawSourceAccess().getGroup(), "rule__RawSource__Group__0");
 			builder.put(grammarAccess.getSinkAccess().getGroup(), "rule__Sink__Group__0");
 			builder.put(grammarAccess.getArrayTypeAccess().getGroup(), "rule__ArrayType__Group__0");
 			builder.put(grammarAccess.getPropertyAccess().getGroup(), "rule__Property__Group__0");
@@ -81,14 +82,18 @@ public class PpidParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getModelAccess().getSinksAssignment_2_2(), "rule__Model__SinksAssignment_2_2");
 			builder.put(grammarAccess.getModelAccess().getProcessesAssignment_2_3(), "rule__Model__ProcessesAssignment_2_3");
 			builder.put(grammarAccess.getModelAccess().getRawQueriesAssignment_2_4(), "rule__Model__RawQueriesAssignment_2_4");
+			builder.put(grammarAccess.getModelAccess().getRawSourcesAssignment_2_5(), "rule__Model__RawSourcesAssignment_2_5");
 			builder.put(grammarAccess.getRawQueryAccess().getTextAssignment_1(), "rule__RawQuery__TextAssignment_1");
 			builder.put(grammarAccess.getEntityAccess().getNameAssignment_1(), "rule__Entity__NameAssignment_1");
 			builder.put(grammarAccess.getEntityAccess().getPropertiesAssignment_3(), "rule__Entity__PropertiesAssignment_3");
 			builder.put(grammarAccess.getSourceAccess().getNameAssignment_1(), "rule__Source__NameAssignment_1");
 			builder.put(grammarAccess.getSourceAccess().getTopicAssignment_2(), "rule__Source__TopicAssignment_2");
-			builder.put(grammarAccess.getSourceAccess().getEntityAssignment_3(), "rule__Source__EntityAssignment_3");
+			builder.put(grammarAccess.getSourceAccess().getEntityAssignment_4(), "rule__Source__EntityAssignment_4");
+			builder.put(grammarAccess.getRawSourceAccess().getNameAssignment_1(), "rule__RawSource__NameAssignment_1");
+			builder.put(grammarAccess.getRawSourceAccess().getInputAssignment_2(), "rule__RawSource__InputAssignment_2");
+			builder.put(grammarAccess.getRawSourceAccess().getEntityAssignment_4(), "rule__RawSource__EntityAssignment_4");
 			builder.put(grammarAccess.getSinkAccess().getNameAssignment_1(), "rule__Sink__NameAssignment_1");
-			builder.put(grammarAccess.getSinkAccess().getEntityAssignment_2(), "rule__Sink__EntityAssignment_2");
+			builder.put(grammarAccess.getSinkAccess().getEntityAssignment_3(), "rule__Sink__EntityAssignment_3");
 			builder.put(grammarAccess.getArrayTypeAccess().getTypeAssignment_1(), "rule__ArrayType__TypeAssignment_1");
 			builder.put(grammarAccess.getEntityReferenceAccess().getEntityAssignment(), "rule__EntityReference__EntityAssignment");
 			builder.put(grammarAccess.getSimpleDataTypeAccess().getTypeAssignment(), "rule__SimpleDataType__TypeAssignment");
