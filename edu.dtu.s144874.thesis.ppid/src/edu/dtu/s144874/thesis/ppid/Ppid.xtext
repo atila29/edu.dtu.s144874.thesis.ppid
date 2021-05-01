@@ -47,11 +47,16 @@ Entity:
     '}';
     
 Source:
-	'source' name=ID topic=STRING ':' entity=[Entity]
+	'source' name=ID topic=STRING (clientId=STRING)? ('{'(mappings+=AttributeMapping)* '}')?  ':' entity=[Entity]
+;
+//@attributes(id = "$.workpiece.id", state = "$.workpiece.state", type = "$.workpiece.type", ts = "$.ts")
+
+AttributeMapping:
+	name=ID ':' mapping=STRING
 ;
 
 RawSource:
-	'rawsource' name=ID input=STRING ':' entity=[Entity]
+	'#source' name=ID input=STRING ':' entity=[Entity]
 ;
 
 Sink:

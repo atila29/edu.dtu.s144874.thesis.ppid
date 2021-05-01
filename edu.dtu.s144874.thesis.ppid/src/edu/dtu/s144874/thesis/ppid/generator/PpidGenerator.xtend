@@ -205,8 +205,8 @@ class PpidGenerator extends AbstractGenerator {
 		fsa.generateFile('application.siddhi', '''
 			«resource.allContents.toIterable.filter(Source).map[
 				'''
-				@source(type = 'mqtt', url = "«config.url»", client.id = "«config.clientId»", topic = "«it.topic»", 
-					@map(type = 'json'))
+				@source(type = 'mqtt', url = "«config.url»", client.id = "«it.compileClientId»", topic = "«it.topic»", 
+					«it.compileMap»)
 				define stream «it.name»Stream («it.entity.properties.map['''«it.name» «it.type.compile»'''].join(', ')»);
 				'''
 			].join('\n')»
@@ -228,6 +228,24 @@ class PpidGenerator extends AbstractGenerator {
 «««			
 		''')
 
+	}
+//	@map(type = 'json', fail.on.missing.attribute="false", 
+//		@attributes(id = "$.workpiece.id", state = "$.workpiece.state", $.workpiece.state))
+	def compileMap(Source source) {
+		if(source.mappings !== null && !source.mappings.empty) {
+			'''
+			@map(type = 'json', fail.on.missing.attribute="false", 
+				@attributes(«source.mappings.map['''«it.name» = "«it.mapping»"'''].join(', ')»))'''
+		} else {	
+			'''@map(type = 'json')'''
+		}
+	}
+	
+	def compileClientId(Source source) {
+		if(source.clientId !== null) {
+			return source.clientId
+		}
+		return Configuration.instance.clientId
 	}
 	
 	def compileConfiguration(Config config) {
