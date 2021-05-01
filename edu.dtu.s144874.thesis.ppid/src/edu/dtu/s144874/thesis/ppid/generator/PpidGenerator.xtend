@@ -68,6 +68,8 @@ import org.eclipse.emf.ecore.EObject
 import java.util.Collections
 import edu.dtu.s144874.thesis.ppid.ppid.RawQuery
 import edu.dtu.s144874.thesis.ppid.ppid.RawSource
+import edu.dtu.s144874.thesis.ppid.ppid.Config
+import edu.dtu.s144874.thesis.ppid.generator.model.Configuration
 
 /**
  * Generates code from your model files on save.
@@ -88,6 +90,11 @@ import edu.dtu.s144874.thesis.ppid.ppid.RawSource
 class PpidGenerator extends AbstractGenerator {
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		
+		
+		val config = resource.allContents.filter(Config).findFirst[].compileConfiguration
+		
+		
 
 		val globalVars = resource.allContents.toIterable.filter(GlobalVar).map[
 			'''
@@ -141,7 +148,7 @@ class PpidGenerator extends AbstractGenerator {
 					
 					val predicates = it.predicates.predicates
 					
-					val indexedPredicates  = predicates.map[new IndexedPredicate(predicates.indexOf(it), it)]
+					val indexedPredicates = predicates.map[new IndexedPredicate(predicates.indexOf(it), it)]
 					
 //					val eventAttributes = trigger.command.compileEventAttributes(indexedPredicates)
 					
@@ -198,7 +205,7 @@ class PpidGenerator extends AbstractGenerator {
 		fsa.generateFile('application.siddhi', '''
 			«resource.allContents.toIterable.filter(Source).map[
 				'''
-				@source(type = 'mqtt', url = "tcp://127.0.0.1:1883", client.id = "siddhidsi", topic = "«it.topic»", 
+				@source(type = 'mqtt', url = "«config.url»", client.id = "«config.clientId»", topic = "«it.topic»", 
 					@map(type = 'json'))
 				define stream «it.name»Stream («it.entity.properties.map['''«it.name» «it.type.compile»'''].join(', ')»);
 				'''
@@ -221,6 +228,10 @@ class PpidGenerator extends AbstractGenerator {
 «««			
 		''')
 
+	}
+	
+	def compileConfiguration(Config config) {
+		Configuration.instance = config
 	}
 	
 	def compileGroupings(Command command) {

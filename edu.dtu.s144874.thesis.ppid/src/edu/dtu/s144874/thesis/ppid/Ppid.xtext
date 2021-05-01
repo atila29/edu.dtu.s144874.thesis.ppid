@@ -17,6 +17,7 @@ Model:
 //	start=StartRule?
 //    end=EndRule?
 	{Model}
+	config=Config?
 	globalsVars+=GlobalVar*
 
     (entites+=Entity |
@@ -29,6 +30,14 @@ Model:
 
 RawQuery:
 	'#' text=STRING
+;
+
+Config:
+	{Config} 'config' '{'
+	('clienId' ':' clientId=STRING)?
+	('url' ':' url=STRING)?
+	('window' ':' window=STRING)?
+	'}'
 ;
 
 
