@@ -65,7 +65,7 @@ class PredicateStreamLeaf extends IntermediateStreamLeaf {
 			if (source instanceof GlobalVar) {
 			} else if (source instanceof Source) {
 
-				'''«source.name»«property.name»'''
+				'''«property.name»'''
 
 			}
 		}

@@ -87,7 +87,7 @@ class IntermediateStreamTree {
 //		add(leaf)
 //	}
 	def compileSelect() {
-		''', «this.current.get.compileSelect»'''
+		'''«this.current.get.compileSelect»'''
 	}
 
 	def compileHaving() {
@@ -118,6 +118,10 @@ class IntermediateStreamTree {
 			add(leaf)
 		}
 
+	}
+	
+	def compileFinalSink() {
+		'''«this.current.get.compileFinalSink»'''
 	}
 
 //	

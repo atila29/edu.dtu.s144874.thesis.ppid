@@ -83,7 +83,7 @@ class IntermediateStreamNode {
 	
 	def String compileSelect() {
 		if(!leftNode.present) {
-			return '''«leftLeaf.get.compileParentSelect(previousOutputStream)», «IF rightLeaf.isPresent»«rightLeaf.get.compileParentSelect(previousOutputStream)»«ENDIF»'''
+			return '''«leftLeaf.get.compileParentSelect(previousOutputStream)»«IF rightLeaf.isPresent», «rightLeaf.get.compileParentSelect(previousOutputStream)»«ENDIF»'''
 		} else {			
 			return '''«rightLeaf.get.compileParentSelect(previousOutputStream)», «leftNode.get.compileSelect»'''
 		}
@@ -92,20 +92,27 @@ class IntermediateStreamNode {
 	def String compileNode() {
 		'''
 		«IF leftLeaf.isPresent»
-			@info(name='first')  
+			@info(name='root-«compileName»')
 			from «leftLeaf.get.compileSource»«IF rightLeaf.isPresent» join «rightLeaf.get.compileSource»«ENDIF»
 			select «leftLeaf.get.compileSelect»«IF rightLeaf.isPresent», «rightLeaf.get.compileSelect»«ENDIF»
 			insert into «outputStream»;
 		«ELSE»
 			«IF leftNode.isPresent»«leftNode.get.compileNode»«ENDIF»
 			
-			
-			@info(name='TODO Improve name')
+			@info(name='«compileName»')
 			from «leftNode.get.compileSource» join «rightLeaf.get.compileSource»
 			select «rightLeaf.get.compileSelect», «leftNode.get.compileSelect»
 			insert into «outputStream»;
 		«ENDIF»
+		
+		@info(name='intermediate-sink-«compileName»')
+		@sink(type='log')
+		define «previousOutputStream»(«compileFinalSink»);
 		'''
+	}
+	
+	def compileName() {
+		'''«IF leftLeaf.present»«leftLeaf.get.name»«ENDIF»«IF rightLeaf.present»«rightLeaf.get.name»«ENDIF»'''
 	}
 	
 	def Iterable<IntermediateStreamNode> asNodeIterable() {
@@ -144,6 +151,14 @@ class IntermediateStreamNode {
 			}
 		}
 		return false
+	}
+	
+	def CharSequence compileFinalSink() {
+		if(!leftNode.present) {
+			return '''«leftLeaf.get.compileParentFinalSink»«IF rightLeaf.isPresent», «rightLeaf.get.compileParentFinalSink»«ENDIF»'''
+		} else {			
+			return '''«rightLeaf.get.compileParentFinalSink», «leftNode.get.compileFinalSink»'''
+		}
 	}
 	
 //	def compileHaving() {

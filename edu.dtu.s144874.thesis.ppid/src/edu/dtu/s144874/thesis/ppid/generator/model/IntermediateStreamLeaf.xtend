@@ -6,6 +6,11 @@ import org.eclipse.emf.ecore.EObject
 import edu.dtu.s144874.thesis.ppid.ppid.GlobalVar
 import edu.dtu.s144874.thesis.ppid.ppid.Source
 import edu.dtu.s144874.thesis.ppid.ppid.Predicate
+import edu.dtu.s144874.thesis.ppid.ppid.Type
+import edu.dtu.s144874.thesis.ppid.ppid.Entity
+import edu.dtu.s144874.thesis.ppid.ppid.EntityReference
+import edu.dtu.s144874.thesis.ppid.ppid.SimpleDataType
+import edu.dtu.s144874.thesis.ppid.ppid.PrimitiveType
 
 class IntermediateStreamLeaf {
 	protected EObject source
@@ -66,6 +71,38 @@ class IntermediateStreamLeaf {
 			this.predicateStreamLeaf = Optional.of(new PredicateStreamLeaf(source, predicates))
 		}
 		
+	}
+	
+	def compileParentFinalSink() {
+		'''«source.compileSourceToSinkProperties»'''
+	}
+	
+	def compileSourceToSinkProperties(EObject object) {
+		if(source instanceof GlobalVar) {
+			return source.type.compileToSink
+		} else if(source instanceof Source) {
+			return source.entity.compileToSink
+		}
+	}
+	
+	def CharSequence compileToSink(Type type) {
+		if(type instanceof EntityReference) {
+			return type.entity.compileToSink
+		} else if(type instanceof SimpleDataType) {
+			val primitiveType = type.type
+			if(primitiveType === PrimitiveType.NUMBER) {
+				return '''int'''
+			} else if(primitiveType === PrimitiveType.STRING) {
+				return '''string'''
+			}
+			return '''XXXXX'''
+		}
+		
+		return '''XXXXX'''
+	}
+	
+	def compileToSink(Entity entity) {
+		entity.properties.map['''«it.name» «it.type.compileToSink»'''].join(', ')
 	}
 	
 }

@@ -184,6 +184,7 @@ SetVarCommand:
 
 Process:
 	'process' name=ID '{'
+	('case' '=' caseId=ExtendedExpression)?
 	activities+=(Activity)*
 	connections+=(Connection)*
 	'}'

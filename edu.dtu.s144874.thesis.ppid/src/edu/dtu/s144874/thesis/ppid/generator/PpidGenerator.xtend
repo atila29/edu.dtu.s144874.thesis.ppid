@@ -70,6 +70,8 @@ import edu.dtu.s144874.thesis.ppid.ppid.RawQuery
 import edu.dtu.s144874.thesis.ppid.ppid.RawSource
 import edu.dtu.s144874.thesis.ppid.ppid.Config
 import edu.dtu.s144874.thesis.ppid.generator.model.Configuration
+import edu.dtu.s144874.thesis.ppid.ppid.Trigger
+import org.eclipse.emf.common.util.EList
 
 /**
  * Generates code from your model files on save.
@@ -91,11 +93,8 @@ class PpidGenerator extends AbstractGenerator {
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		
-		
 		val config = resource.allContents.filter(Config).findFirst[].compileConfiguration
 		
-		
-
 		val globalVars = resource.allContents.toIterable.filter(GlobalVar).map[
 			'''
 			@sink(type='log') 
@@ -169,12 +168,21 @@ class PpidGenerator extends AbstractGenerator {
 					return '''
 					
 					«intermediateStreams»
+«««					@info(name='intermediate-sink-«it.compileName»')
+«««					@sink(type='log')
+«««					define «currentNode.finalInputStream» («currentNode.compileFinalSink»);
+«««					@info(name='collection-«it.compileName»')
+«««					from «currentNode.finalInputStream»
+«««					select '«process.name»' as processName, '«activity.name»' as activityName«currentNode.compileSelect»
+«««					«IF !having.empty»having «having»«ENDIF»
+«««					insert into output«trigger.command.compileTriggerOutput»;
 					
-					
-					from «currentNode.finalInputStream»
-					select '«process.name»' as processName, '«activity.name»' as activityName«currentNode.compileSelect»
+					@info(name='output-«it.compileName»')
+					from «currentNode.finalInputStream»«process.caseId.compileCaseIdJoin»
+					select '«process.name»' as processName, '«activity.name»' as activityName, «process.caseId.compileCaseId» as caseId, «currentNode.compileSelect»«command.compileSelect»
 					«IF !having.empty»having «having»«ENDIF»
 					insert into «trigger.command.compileTriggerOutput»;
+					
 «««					
 «««					DEPRECATED
 «««					
@@ -192,11 +200,11 @@ class PpidGenerator extends AbstractGenerator {
 		
 		val sinks = resource.allContents.toIterable.filter(Sink).map[
 			'''
-			@sink(type='log')
-			define stream «it.compileName» (processName string, activityName string «it.entity.compileStreamProperties»);
+			@sink(type = 'mqtt', url = "«config.url»", client.id = "«it.compileClientId»", topic = "base/$processName/$caseId/$activityName",  quality.of.service= '0', @map(type='json'))
+			define stream «it.compileName» (processName string, activityName string, caseId string «it.entity.compileStreamProperties»);
 			'''
 		].join('\n')
-
+//BASE/[SOURCE ID]/[PROCESS INSTANCE ID]/[ACTIVITY NAME]
 		val rawQueries = resource.allContents.toIterable.filter(RawQuery).map[it.text].join('\n')
 		
 		val rawSources = resource.allContents.toIterable.filter(RawSource).map[it.input].join('\n')
@@ -229,6 +237,87 @@ class PpidGenerator extends AbstractGenerator {
 		''')
 
 	}
+	
+	def compileCaseIdJoin(ExtendedExpression expression) {
+		expression.left.compileCaseIdJoin
+	}
+	
+	def compileCaseIdJoin(ExpressionPart expression) {
+		if(expression.ref !== null) {
+			val source = expression.ref.source
+			
+			if(source instanceof GlobalVar) {
+				''' join «source.name»'''
+			} else if(source instanceof Source) {
+				''''''
+			}
+			
+		} else if(expression.stringValue !== null) {
+			''''''
+		} else {
+			''''''
+		}
+	}
+	
+	def compileSelect(Command command) {
+		if(command instanceof SetVarCommand) {
+			''''''
+		} else if(command instanceof OutputCommand) {
+			command.output.properties.map['''«it.exp.compilePropertyValue» as «it.property.name»'''].join(', ')
+		}
+	}
+	
+	def compilePropertyValue(ExtendedExpression expression) {
+		'''«expression.left.compilePropertyValue»«expression.right.compilePropertyValue»'''
+	}
+	
+	def compilePropertyValue(ExpressionPart expression) {
+		if(expression.ref !== null) {
+			val source = expression.ref.source
+			
+			if(source instanceof GlobalVar) {
+				'''«source.name».«expression.ref.property.name»'''
+			} else if(source instanceof Source) {
+				expression.ref.property.name
+			}
+			
+		} else if(expression.stringValue !== null) {
+			''' '«expression.stringValue»' '''
+		} else {
+			'''«expression.value»'''
+		}
+	}
+	
+	def compilePropertyValue(EList<RightExpression> expressions) {
+		expressions.map['''«it.operator» «it.exp.compilePropertyValue»'''].join(' ')
+	}
+	
+	
+	def compileCaseId(ExtendedExpression expression) {
+		'''«expression.left.compileCaseId»«expression.right.compileCaseId»'''
+	}
+	
+	def compileCaseId(ExpressionPart expression) {
+		if(expression.ref !== null) {
+			val source = expression.ref.source
+			
+			if(source instanceof GlobalVar) {
+				'''«source.name».«expression.ref.property.name»'''
+			} else if(source instanceof Source) {
+				expression.ref.property.name
+			}
+			
+		} else if(expression.stringValue !== null) {
+			''' '«expression.stringValue»' '''
+		} else {
+			'''«expression.value»'''
+		}
+	}
+	
+	def compileCaseId(List<RightExpression> expressions) {
+		expressions.map['''«it.operator» «it.exp.compileCaseId»'''].join(' ')
+	}
+	
 //	@map(type = 'json', fail.on.missing.attribute="false", 
 //		@attributes(id = "$.workpiece.id", state = "$.workpiece.state", $.workpiece.state))
 	def compileMap(Source source) {
@@ -245,6 +334,13 @@ class PpidGenerator extends AbstractGenerator {
 		if(source.clientId !== null) {
 			return source.clientId
 		}
+		return Configuration.instance.clientId
+	}
+	
+	def compileClientId(Sink sink) {
+//		if(source.clientId !== null) {
+//			return source.clientId
+//		}
 		return Configuration.instance.clientId
 	}
 	
@@ -300,6 +396,10 @@ class PpidGenerator extends AbstractGenerator {
 	
 	def compileName(Sink sink){
 		'''«sink.name»'''
+	}
+	
+	def compileName(Trigger trigger){
+		'''«trigger.predicates.predicates.map[it.source.name].join('-')»'''
 	}
 	
 	def compileEventAttributes(Command command, List<IndexedPredicate> indexedPredicates) {
