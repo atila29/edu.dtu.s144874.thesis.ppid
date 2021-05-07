@@ -1,4 +1,4 @@
-package edu.dtu.s144874.thesis.ppid.tests.cases.smartfactory
+package edu.dtu.s144874.thesis.ppid.cases.smartfactory.tests
 
 class ApplicationSmartFactory {
 	public static val APPLICATION = '''

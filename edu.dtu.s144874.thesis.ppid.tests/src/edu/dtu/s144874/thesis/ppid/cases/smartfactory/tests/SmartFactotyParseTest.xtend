@@ -1,4 +1,4 @@
-package edu.dtu.s144874.thesis.ppid.tests.cases.smartfactory
+package edu.dtu.s144874.thesis.ppid.cases.smartfactory.tests
 
 import com.google.inject.Inject
 import edu.dtu.s144874.thesis.ppid.ppid.Model
@@ -8,13 +8,12 @@ import org.eclipse.xtext.testing.util.ParseHelper
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.^extension.ExtendWith
-import edu.dtu.s144874.thesis.ppid.tests.cases.smartfactory.ApplicationSmartFactory
 import edu.dtu.s144874.thesis.ppid.tests.PpidInjectorProvider
 import static org.junit.Assert.assertTrue
 
 @ExtendWith(InjectionExtension)
 @InjectWith(PpidInjectorProvider)
-class ParseTestSmartFactoty {
+class SmartFactotyParseTest {
 	
 	@Inject
 	ParseHelper<Model> parseHelper
@@ -27,5 +26,6 @@ class ParseTestSmartFactoty {
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", ")»''')
 
 		assertTrue(result instanceof Model)
+		assertTrue(false)
 	}
 }

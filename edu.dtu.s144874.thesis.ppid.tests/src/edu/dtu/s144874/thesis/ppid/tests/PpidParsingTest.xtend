@@ -11,7 +11,10 @@ import org.eclipse.xtext.testing.util.ParseHelper
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.^extension.ExtendWith
+import org.junit.runner.RunWith
+import org.eclipse.xtext.testing.XtextRunner
 
+@RunWith(XtextRunner)
 @ExtendWith(InjectionExtension)
 @InjectWith(PpidInjectorProvider)
 class PpidParsingTest {
@@ -26,6 +29,6 @@ class PpidParsingTest {
 		Assertions.assertNotNull(result)
 		val errors = result.eResource.errors
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", ")»''')
-		Assertions.assertEquals('''expected''', result)
+		Assertions.assertTrue(false)
 	}
 }

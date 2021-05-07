@@ -1,4 +1,4 @@
-package edu.dtu.s144874.thesis.ppid.tests.cases.smartfactory
+package edu.dtu.s144874.thesis.ppid.cases.smartfactory.tests
 
 import com.google.inject.Inject
 import edu.dtu.s144874.thesis.ppid.ppid.Model
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertNotNull
 
 @ExtendWith(InjectionExtension)
 @InjectWith(PpidInjectorProvider)
-class SiddhiQueryUnitTestSmartFactory {
+class SiddhiQuerySmartFactoryUnitTest {
 	@Inject IGenerator2 generator
 //	@Inject Provider<XtextResourceSet> resourceSetProvider
 	InMemoryFileSystemAccess fsa = new InMemoryFileSystemAccess();
