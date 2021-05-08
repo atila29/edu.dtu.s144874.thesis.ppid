@@ -10,9 +10,7 @@ import org.eclipse.xtext.testing.extensions.InjectionExtension
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.^extension.ExtendWith
-
-import static org.junit.Assert.assertEquals
-import static org.junit.Assert.assertNotNull
+import org.junit.jupiter.api.Assertions
 
 @ExtendWith(InjectionExtension)
 @InjectWith(PpidInjectorProvider)
@@ -29,10 +27,10 @@ class SiddhiQuerySmartFactoryUnitTest {
 	def void shouldGenerateSiddhi() {
 		val model = parseHelper.parse(ApplicationSmartFactory.APPLICATION)
 		generator.doGenerate(model.eResource,fsa, null)
-		assertEquals(1,fsa.textFiles.size)
+		Assertions.assertEquals(1,fsa.textFiles.size)
 		val result = fsa.textFiles.get('DEFAULT_OUTPUTapplication.siddhi')
 		
-		assertNotNull(result)
+		Assertions.assertNotNull(result)
 	}
 	
 	@Test
@@ -41,7 +39,7 @@ class SiddhiQuerySmartFactoryUnitTest {
 		generator.doGenerate(model.eResource,fsa, null)
 		val query = fsa.textFiles.get('DEFAULT_OUTPUTapplication.siddhi')
 		
-		
+//		    SiddhiManager siddhiManager = new SiddhiManager();
 		
 	}
 }

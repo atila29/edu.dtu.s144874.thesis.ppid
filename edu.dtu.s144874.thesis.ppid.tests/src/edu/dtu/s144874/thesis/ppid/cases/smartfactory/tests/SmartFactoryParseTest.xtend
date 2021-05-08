@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.^extension.ExtendWith
 import edu.dtu.s144874.thesis.ppid.tests.PpidInjectorProvider
-import static org.junit.Assert.assertTrue
+import org.junit.jupiter.api.Assertions
 
 @ExtendWith(InjectionExtension)
 @InjectWith(PpidInjectorProvider)
-class SmartFactotyParseTest {
+class SmartFactoryParseTest {
 	
 	@Inject
 	ParseHelper<Model> parseHelper
@@ -25,7 +25,6 @@ class SmartFactotyParseTest {
 		val errors = result.eResource.errors
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", ")»''')
 
-		assertTrue(result instanceof Model)
-		assertTrue(false)
+		Assertions.assertTrue(result instanceof Model)
 	}
 }
