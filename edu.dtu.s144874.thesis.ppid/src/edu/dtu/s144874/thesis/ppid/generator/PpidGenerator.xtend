@@ -72,6 +72,7 @@ import edu.dtu.s144874.thesis.ppid.ppid.Config
 import edu.dtu.s144874.thesis.ppid.generator.model.Configuration
 import edu.dtu.s144874.thesis.ppid.ppid.Trigger
 import org.eclipse.emf.common.util.EList
+import edu.dtu.s144874.thesis.ppid.generator.model.IntermediateStreamNode
 
 /**
  * Generates code from your model files on save.
@@ -124,7 +125,7 @@ class PpidGenerator extends AbstractGenerator {
 					// input is of form EObject, List<Pair<Property, Property>>
 					
 					
-					val currentNode = new IntermediateStreamTree
+					val currentNode = new IntermediateStreamTree(process, activity)
 					
 					currentNode.addGroupedInputs(groupedInputs)
 					
@@ -162,9 +163,6 @@ class PpidGenerator extends AbstractGenerator {
 					.join(' ')
 					
 					
-					val having = currentNode.compileHaving
-					
-					
 					return '''
 					
 					«intermediateStreams»
@@ -177,10 +175,10 @@ class PpidGenerator extends AbstractGenerator {
 «««					«IF !having.empty»having «having»«ENDIF»
 «««					insert into output«trigger.command.compileTriggerOutput»;
 					
-					@info(name='output-«it.compileName»')
+					@info(name='output-«process.name»-«activity.name»-«activity.trigger.indexOf(trigger)»')
 					from «currentNode.finalInputStream»«process.caseId.compileCaseIdJoin»
-					select '«process.name»' as processName, '«activity.name»' as activityName, «process.caseId.compileCaseId» as caseId, «currentNode.compileSelect»«command.compileSelect»
-					«IF !having.empty»having «having»«ENDIF»
+					select '«process.name»' as processName, '«activity.name»' as activityName, «process.caseId.compileCaseId» as caseId «command.compileSelect»
+					«IF !currentNode.compileHaving(trigger.command.compileTriggerOutput).empty»having «currentNode.compileHaving(currentNode.finalInputStream)»«ENDIF»
 					insert into «trigger.command.compileTriggerOutput»;
 					
 «««					
@@ -211,25 +209,28 @@ class PpidGenerator extends AbstractGenerator {
 
 
 		fsa.generateFile('application.siddhi', '''
-			«resource.allContents.toIterable.filter(Source).map[
-				'''
-				@source(type = 'mqtt', url = "«config.url»", client.id = "«it.compileClientId»", topic = "«it.topic»", 
-					«it.compileMap»)
-				define stream «it.name»Stream («it.entity.properties.map['''«it.name» «it.type.compile»'''].join(', ')»);
-				'''
-			].join('\n')»
-			
-			«sinks»
-			
+		@App:name("application")
+		
+		«resource.allContents.toIterable.filter(Source).map[
+			'''
+			@source(type = 'mqtt', url = "«config.url»", client.id = "«it.compileClientId»", topic = "«it.topic»", 
+				«it.compileMap»)
+			define stream «it.name» («it.entity.properties.map['''«it.name» «it.type.compile»'''].join(', ')»);
+			'''
+		].join('\n')»
+		
+		«sinks»
+		
+		«IntermediateStreamNode.compileIntermediateSinks»
+		
 
-			«globalVars»
+		«globalVars»
 
-			«processes»
-			
-			«rawQueries»
-			
-			«rawSources»
-			
+		«processes»
+		
+		«rawQueries»
+		
+		«rawSources»
 «««			@sink(type = 'mqtt', url = "tcp://127.0.0.1:1883", client.id = "siddhipub", topic = "log/$processName/$caseId/$activityName",  quality.of.service= '0', @map(type='json'))
 «««			define stream eventlogOut (processName string, caseId string, activityName string, ts string);
 «««			
@@ -263,6 +264,7 @@ class PpidGenerator extends AbstractGenerator {
 		if(command instanceof SetVarCommand) {
 			''''''
 		} else if(command instanceof OutputCommand) {
+			'''«IF command.output.properties.size > 0», «ENDIF»''' +
 			command.output.properties.map['''«it.exp.compilePropertyValue» as «it.property.name»'''].join(', ')
 		}
 	}

@@ -11,13 +11,20 @@ import edu.dtu.s144874.thesis.ppid.ppid.Source
 import edu.dtu.s144874.thesis.ppid.ppid.Predicate
 import com.google.common.collect.Iterables
 import java.util.ArrayList
+import edu.dtu.s144874.thesis.ppid.ppid.Process
+import edu.dtu.s144874.thesis.ppid.ppid.Activity
+import java.util.function.Function
 
 class IntermediateStreamTree {
 	Optional<IntermediateStreamNode> current;
-	val havings = new ArrayList<CharSequence>()
+	val havings = new ArrayList<Function<CharSequence, CharSequence>>()
+	
+	String queryNamePrefix
+	
 
-	new() {
+	new(Process process, Activity activity) {
 		current = Optional.empty
+		this.queryNamePrefix = '''«process.name»-«activity.name»'''
 	}
 
 	def isFirst() {
@@ -47,7 +54,7 @@ class IntermediateStreamTree {
 
 	def compileIntermediateStreams() {
 		if (current.present) {
-			current.get.compileNode
+			current.get.compileNode(queryNamePrefix)
 
 		} else {
 			''''''
@@ -90,8 +97,8 @@ class IntermediateStreamTree {
 		'''«this.current.get.compileSelect»'''
 	}
 
-	def compileHaving() {
-		this.havings.map[it].join(' ')
+	def compileHaving(CharSequence stream) {
+		this.havings.map[it.apply(stream)].join(' ')
 	}
 
 	def finalInputStream() {
@@ -104,7 +111,13 @@ class IntermediateStreamTree {
 		if (current.present) {
 			val node = current.get.asNodeIterable.findFirst[it.has(source)]
 			val leaf = new PredicateStreamLeaf(source, predicates)
-			val having = leaf.compileHaving
+			val having = new Function<CharSequence, CharSequence>() {
+				
+				override apply(CharSequence arg0) {
+					return leaf.compileHaving(arg0)
+				}
+				
+			}
 			havings.add(having)
 			if (node === null) {
 				add(leaf)
@@ -113,7 +126,13 @@ class IntermediateStreamTree {
 			}
 		} else {
 			val leaf = new PredicateStreamLeaf(source, predicates)
-			val having = leaf.compileHaving
+			val having = new Function<CharSequence, CharSequence>() {
+				
+				override apply(CharSequence arg0) {
+					return leaf.compileHaving(arg0)
+				}
+				
+			}
 			havings.add(having)
 			add(leaf)
 		}

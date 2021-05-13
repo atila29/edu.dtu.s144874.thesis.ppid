@@ -15,9 +15,14 @@ class IntermediateStreamNode {
 	Optional<IntermediateStreamNode> parent = Optional.empty
 	
 	static int outputStreamIndex = 0
+	static List<CharSequence> intermediateSinks = new ArrayList<CharSequence>();
 	
 	def hasRight() {
 		rightLeaf.present
+	}
+	
+	def static compileIntermediateSinks() {
+		intermediateSinks.join('\n')
 	}
 	
 	def insertRight(IntermediateStreamLeaf leaf) {
@@ -89,26 +94,47 @@ class IntermediateStreamNode {
 		}
 	}
 	
-	def String compileNode() {
-		'''
+	def String compileNode(String queryNamePrefix) {
+		val output = '''
 		«IF leftLeaf.isPresent»
-			@info(name='root-«compileName»')
+			@info(name='«queryNamePrefix»-«compileQueryName»')
 			from «leftLeaf.get.compileSource»«IF rightLeaf.isPresent» join «rightLeaf.get.compileSource»«ENDIF»
 			select «leftLeaf.get.compileSelect»«IF rightLeaf.isPresent», «rightLeaf.get.compileSelect»«ENDIF»
 			insert into «outputStream»;
 		«ELSE»
-			«IF leftNode.isPresent»«leftNode.get.compileNode»«ENDIF»
+			«IF leftNode.isPresent»«leftNode.get.compileNode(queryNamePrefix)»«ENDIF»
 			
-			@info(name='«compileName»')
+			@info(name='«queryNamePrefix»-«compileQueryName»')
 			from «leftNode.get.compileSource» join «rightLeaf.get.compileSource»
 			select «rightLeaf.get.compileSelect», «leftNode.get.compileSelect»
 			insert into «outputStream»;
 		«ENDIF»
-		
-		@info(name='intermediate-sink-«compileName»')
-		@sink(type='log')
-		define «previousOutputStream»(«compileFinalSink»);
 		'''
+		
+		intermediateSinks.add('''
+«««		@info(name='intermediate-sink-«compileName»')
+		@sink(type='log')
+		define stream «previousOutputStream» («compileFinalSink»);
+		''')
+		
+		
+		return output
+	}
+	
+	def String compileQueryName() {
+		if(leftLeaf.isPresent) {
+			return '''«leftLeaf.get.compileQueryName»«IF rightLeaf.present»«rightLeaf.get.compileQueryName»«ENDIF»'''
+		} else {
+			return '''«IF leftNode.isPresent»«leftNode.get.compileQueryName»«ENDIF»«rightLeaf.get.compileQueryName»'''
+		}
+	}
+	
+	def compileQueryName(IntermediateStreamLeaf leaf) {
+		if(leaf instanceof PredicateStreamLeaf){
+			leaf.compileQueryName
+		} else {
+			'''X0X'''
+		}
 	}
 	
 	def compileName() {

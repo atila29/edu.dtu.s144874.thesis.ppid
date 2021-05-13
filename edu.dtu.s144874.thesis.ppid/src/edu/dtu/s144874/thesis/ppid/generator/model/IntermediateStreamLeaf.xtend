@@ -30,7 +30,7 @@ class IntermediateStreamLeaf {
 	}
 	
 	
-	def compileSource() {
+	def String compileSource() {
 		if(source instanceof GlobalVar) {
 			return this.name
 		} else if(source instanceof Source) {
@@ -40,6 +40,9 @@ class IntermediateStreamLeaf {
 	}
 	
 	def getName() {
+		
+
+		
 		if(source instanceof GlobalVar) {
 			return source.name
 		} else if(source instanceof Source) {
@@ -47,7 +50,7 @@ class IntermediateStreamLeaf {
 		}
 	}
 	
-	def compileSelect() {
+	def CharSequence compileSelect() {
 		if(properties.present){
 			properties.get.map['''«name».«it.sourceProperty.name» as «it.outProperty.name»'''].join(', ')
 				+ '''«IF this.predicateStreamLeaf.present», «this.predicateStreamLeaf.get.compileSelect»«ENDIF»'''

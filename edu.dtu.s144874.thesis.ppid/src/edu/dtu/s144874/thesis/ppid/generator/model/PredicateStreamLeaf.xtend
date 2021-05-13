@@ -105,25 +105,25 @@ class PredicateStreamLeaf extends IntermediateStreamLeaf {
 		].join(', ')
 	}
 
-	def compileHaving() {
+	def compileHaving(CharSequence finalInputStream) {
 
 		predicates.map [
 
 			val update = it.update
 
 			if (update instanceof UpdateAbove) {
-				'''(«it.compileAsPropertyName» > «update.n»)'''
+				'''(«finalInputStream».«it.compileAsPropertyName» > «update.n»)'''
 			} else if (update instanceof UpdateBelow) {
-				'''(«it.compileAsPropertyName» < «update.n»)'''
+				'''(«finalInputStream».«it.compileAsPropertyName» < «update.n»)'''
 			} else if (update instanceof UpdateChange) {
 				// '''
 				// ((e«index»_1.«predicate.property.name»==«update.n») and (e«index»_2.«predicate.property.name»==«update.m»))'''
 //				''''''
 				null
 			} else if (update instanceof UpdateIs) {
-				'''(«it.compileAsPropertyName» == «IF update.s !== null»'«update.s»'«ELSE»«update.n»«ENDIF»)'''
+				'''(«finalInputStream».«it.compileAsPropertyName» == «IF update.s !== null»'«update.s»'«ELSE»«update.n»«ENDIF»)'''
 			} else if (update instanceof UpdateNot) {
-				'''(«it.compileAsPropertyName» !=  «IF update.s !== null»'«update.s»'«ELSE»«update.n»«ENDIF»)'''
+				'''(«finalInputStream».«it.compileAsPropertyName» !=  «IF update.s !== null»'«update.s»'«ELSE»«update.n»«ENDIF»)'''
 			} else {
 				'''«update.class»'''
 			}
@@ -138,6 +138,27 @@ class PredicateStreamLeaf extends IntermediateStreamLeaf {
 
 	def static <T, D> distinctBy(Iterable<? extends T> values, (T)=>D distinction) {
 		values.groupBy(distinction).toPairs.map[value.head]
+	}
+	
+	def compileQueryName() {
+		predicates.map['''«it.source.name»-«it.property.name»-«it.update.compileQueryName»'''].join('-')
+	}
+	
+	def compileQueryName(Update update) {
+		// TODO: support string
+			if (update instanceof UpdateAbove) {
+				'''above«»«update.n»'''
+			} else if (update instanceof UpdateBelow) {
+				'''below«update.n»'''
+			} else if (update instanceof UpdateChange) {
+				'''update«update.n»to«update.m»'''
+			} else if (update instanceof UpdateIs) {
+				'''is«IF update.s !== null»«update.s»«ELSE»«update.n»«ENDIF»'''
+			} else if (update instanceof UpdateNot) {
+				'''isNot«IF update.s !== null»«update.s»«ELSE»«update.n»«ENDIF»'''
+			} else {
+				'''«update.class»'''
+			}
 	}
 
 }
